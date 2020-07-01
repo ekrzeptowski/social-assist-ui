@@ -19,7 +19,7 @@ import {
   ListItemIcon,
   ListItemText,
   ListItem,
-  Divider
+  Divider,
 } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import SyncIcon from "@material-ui/icons/Sync";
@@ -30,53 +30,53 @@ import SettingsIcon from "@material-ui/icons/Settings";
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex"
+    display: "flex",
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    })
+      duration: theme.transitions.duration.leavingScreen,
+    }),
   },
   appBarShift: {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
   menuButton: {
-    marginRight: 36
+    marginRight: 36,
   },
   hide: {
-    display: "none"
+    display: "none",
   },
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
-    whiteSpace: "nowrap"
+    whiteSpace: "nowrap",
   },
   drawerOpen: {
     width: drawerWidth,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
   drawerClose: {
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
+      duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: "hidden",
     width: theme.spacing(7) + 1,
     [theme.breakpoints.up("sm")]: {
-      width: theme.spacing(7) + 1
-    }
+      width: theme.spacing(7) + 1,
+    },
   },
   toolbar: {
     display: "flex",
@@ -84,31 +84,34 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "flex-end",
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
-    ...theme.mixins.toolbar
+    ...theme.mixins.toolbar,
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3)
-  }
+    padding: theme.spacing(3),
+  },
 }));
 
 function ListItemLink(props) {
-    const { icon, primary, to } = props;
-  
-    const renderLink = React.useMemo(
-      () => React.forwardRef((itemProps, ref) => <Link to={to} ref={ref} {...itemProps} />),
-      [to],
-    );
-  
-    return (
-      <li>
-        <ListItem button component={renderLink}>
-          {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
-          <ListItemText primary={primary} />
-        </ListItem>
-      </li>
-    );
-  }
+  const { icon, primary, to } = props;
+
+  const renderLink = React.useMemo(
+    () =>
+      React.forwardRef((itemProps, ref) => (
+        <Link to={to} ref={ref} {...itemProps} />
+      )),
+    [to]
+  );
+
+  return (
+    <li>
+      <ListItem button component={renderLink}>
+        {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
+        <ListItemText primary={primary} />
+      </ListItem>
+    </li>
+  );
+}
 
 const Sidebar = ({ nav }) => {
   const classes = useStyles();
@@ -119,27 +122,26 @@ const Sidebar = ({ nav }) => {
       variant="permanent"
       className={clsx(classes.drawer, {
         [classes.drawerOpen]: nav.isExpanded,
-        [classes.drawerClose]: !nav.isExpanded
+        [classes.drawerClose]: !nav.isExpanded,
       })}
       classes={{
         paper: clsx({
           [classes.drawerOpen]: nav.isExpanded,
-          [classes.drawerClose]: !nav.isExpanded
-        })
+          [classes.drawerClose]: !nav.isExpanded,
+        }),
       }}
     >
       <div className={classes.toolbar}></div>
       <List>
+        <ListItemLink to="/" primary="Overview" icon={<DashboardIcon />} />
+        <ListItemLink
+          to="/followers"
+          primary="Followers"
+          icon={<AddCircleIcon />}
+        />
 
-            <ListItemLink to="/" primary="Overview" icon={<DashboardIcon/>}/>
-            <ListItemLink to="/followers" primary="Followers" icon={<AddCircleIcon/>}/>
+        <ListItemLink to="/unfollowers" primary="Unfollowers" icon={<DeleteIcon />} />
 
-        <ListItem button>
-          <ListItemIcon>
-            <DeleteIcon />
-          </ListItemIcon>
-          <ListItemText>Unfollowers</ListItemText>
-        </ListItem>
         <ListItem button>
           <ListItemIcon>
             <DeleteIcon />
@@ -175,8 +177,8 @@ const Sidebar = ({ nav }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  nav: state.nav
+const mapStateToProps = (state) => ({
+  nav: state.nav,
 });
 
 export default compose(

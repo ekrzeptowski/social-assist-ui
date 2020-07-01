@@ -13,6 +13,7 @@ import Loader from "./components/Loader/Loader";
 
 import { logInUserWithOauth, loadMe } from "./store/actions/authActions";
 import Followers from "./pages/Followers/Followers";
+import Unfollowers from "./pages/Unfollowers/Unfollowers";
 
 import { websocketConnect } from "./store/actions/websocketActions";
 
@@ -60,6 +61,7 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
         <Switch>
           <Route path="/login" component={Login} />
           <Route path="/followers" component={Followers} />
+          <Route path="/unfollowers" component={Unfollowers} />
           <Route path="/notfound" component={NotFound} />
           <Route exact path="/:username" component={Profile} />
           <Route exact path="/" component={Home} />

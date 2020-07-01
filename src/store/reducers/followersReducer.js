@@ -9,6 +9,7 @@ const initialState = {
   error: null,
   followers: [],
   totalFollowers: null,
+  unfollowers: null,
   fetchedAt: null
 };
 
@@ -27,6 +28,7 @@ export default function(state = initialState, { type, payload }) {
         isLoading: false,
         followers: payload.followers,
         totalFollowers: payload.totalFollowers,
+        unfollowers: payload.unfollowers,
         fetchedAt: payload.fetchedAt
       };
       case GET_FOLLOWERS_FAIL:

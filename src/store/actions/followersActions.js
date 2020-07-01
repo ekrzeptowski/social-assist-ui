@@ -17,7 +17,7 @@ export const getFollowers = () => async (dispatch, getState) => {
 
     dispatch({
       type: GET_FOLLOWERS_SUCCESS,
-      payload: { followers: response.data.followers, totalFollowers: response.data.totalFollowers, fetchedAt: response.data.fetchedAt },
+      payload: { followers: response.data.followers, totalFollowers: response.data.totalFollowers, unfollowers: response.data.unfollowers, fetchedAt: response.data.fetchedAt },
     });
   } catch (err) {
     dispatch({
