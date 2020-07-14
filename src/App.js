@@ -16,6 +16,7 @@ import Followers from "./pages/Followers/Followers";
 import Unfollowers from "./pages/Unfollowers/Unfollowers";
 
 import { websocketConnect } from "./store/actions/websocketActions";
+import Settings from "./pages/Settings/Settings";
 
 const App = ({ logInUserWithOauth, auth, loadMe }) => {
   // useEffect(() => {
@@ -35,11 +36,7 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
   }, []);
 
   useEffect(() => {
-    if (
-      !auth.isLoading &&
-      auth.token &&
-      !auth.isAuthenticated
-    ) {
+    if (!auth.isLoading && auth.token && !auth.isAuthenticated) {
       loadMe();
     }
   }, [
@@ -47,7 +44,7 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
     auth.token,
     loadMe,
     auth.isLoading,
-    auth.appLoaded
+    auth.appLoaded,
   ]);
 
   useEffect(() => {
@@ -62,6 +59,7 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
           <Route path="/login" component={Login} />
           <Route path="/followers" component={Followers} />
           <Route path="/unfollowers" component={Unfollowers} />
+          <Route path="/settings" component={Settings} />
           <Route path="/notfound" component={NotFound} />
           <Route exact path="/:username" component={Profile} />
           <Route exact path="/" component={Home} />
@@ -74,8 +72,8 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
 });
 
 export default compose(

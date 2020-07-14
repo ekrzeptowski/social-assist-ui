@@ -140,7 +140,11 @@ const Sidebar = ({ nav }) => {
           icon={<AddCircleIcon />}
         />
 
-        <ListItemLink to="/unfollowers" primary="Unfollowers" icon={<DeleteIcon />} />
+        <ListItemLink
+          to="/unfollowers"
+          primary="Unfollowers"
+          icon={<DeleteIcon />}
+        />
 
         <ListItem button>
           <ListItemIcon>
@@ -166,12 +170,11 @@ const Sidebar = ({ nav }) => {
       </List>
       <Divider />
       <List>
-        <ListItem button>
-          <ListItemIcon>
-            <SettingsIcon />
-          </ListItemIcon>
-          <ListItemText>Settings</ListItemText>
-        </ListItem>
+        <ListItemLink
+          to="/settings"
+          primary="Settings"
+          icon={<SettingsIcon />}
+        />
       </List>
     </Drawer>
   );
