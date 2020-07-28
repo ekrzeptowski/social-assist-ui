@@ -6,7 +6,11 @@ import { Link, Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Layout from "../../layout/Layout";
-import { getFollowers } from "../../store/actions/followersActions";
+import {
+  getFollowers,
+  getFollowersHistory,
+  getFollowersStats,
+} from "../../store/actions/followersActions";
 
 import {
   Typography,
@@ -19,28 +23,37 @@ import {
 
 const useStyles = makeStyles({
   card: {
-    minWidth: 275
+    minWidth: 275,
   },
   title: {
-    fontSize: 14
-  }
+    fontSize: 14,
+  },
 });
 
 const Home = ({
   auth,
-  getFollowers,
-  followers: { followers, isLoading, totalFollowers }
+  // getFollowers,
+  getFollowersHistory,
+  getFollowersStats,
+  followers: {
+    // followers,
+    isLoading,
+    totalFollowers,
+    totalFollowing,
+    followersHistory,
+  },
 }) => {
   const classes = useStyles();
 
   useEffect(() => {
-    if (followers.length == 0 && !isLoading && auth.isAuthenticated) {
-      getFollowers();
+    if (!totalFollowers && !isLoading && auth.isAuthenticated) {
+      // getFollowers();
+      getFollowersStats();
+      getFollowersHistory();
     }
   }, [auth.isAuthenticated]);
 
   if (!auth.isAuthenticated) return <Redirect to="/login" />;
-
 
   return (
     <Layout>
@@ -66,11 +79,25 @@ const Home = ({
               <Grid item>
                 <Card className={classes.card}>
                   <CardContent>
-                    <Typography variant="h5">{totalFollowers}</Typography>
+                    <Typography variant="h5">
+                      {totalFollowers}
+                    </Typography>
                   </CardContent>
                   <CardActions>
                     <Button size="small" color="primary">
                       Followers
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+              <Grid item>
+                <Card className={classes.card}>
+                  <CardContent>
+                    <Typography variant="h5">{totalFollowing}</Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="small" color="primary">
+                      Following
                     </Button>
                   </CardActions>
                 </Card>
@@ -83,9 +110,15 @@ const Home = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
-  followers: state.followers
+  followers: state.followers,
 });
 
-export default compose(connect(mapStateToProps, { getFollowers }))(Home);
+export default compose(
+  connect(mapStateToProps, {
+    // getFollowers,
+    getFollowersHistory,
+    getFollowersStats,
+  })
+)(Home);

@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 
-import { getFollowers } from "../../store/actions/followersActions";
+import { getUnfollowers } from "../../store/actions/followersActions";
 import Layout from "../../layout/Layout";
 import Loader from "../../components/Loader/Loader";
 import requireAuth from "../../hoc/requireAuth";
 import PeopleTable from "../../components/Table/Table";
 import { Grid, Typography, Avatar, makeStyles } from "@material-ui/core";
+import Link from "@material-ui/core/Link";
 
 const useStyles = makeStyles({
   avatar: {
@@ -17,14 +17,14 @@ const useStyles = makeStyles({
 });
 
 const Unfollowers = ({
-  getFollowers,
+  getUnfollowers,
   followers: { unfollowers, isLoading },
 }) => {
   const classes = useStyles();
 
   useEffect(() => {
     if (!unfollowers && !isLoading) {
-      getFollowers();
+      getUnfollowers();
     }
   }, []);
 
@@ -37,7 +37,7 @@ const Unfollowers = ({
           row: {
             original: { user },
           },
-        }) => <Avatar alt={user.name} src={user.avatar} />,
+        }) => <Avatar alt={user?.name} src={user?.avatar} />,
       },
       {
         Header: "Name",
@@ -48,9 +48,11 @@ const Unfollowers = ({
           },
         }) => (
           <Grid item>
-            <Typography>{user.name}</Typography>
+            <Typography>{user?.name}</Typography>
             <Typography variant="caption" color="textSecondary">
-              @{user.screen_name}
+              <Link href={`https://twitter.com/${user?.screen_name}`}>
+                @{user?.screen_name}
+              </Link>
             </Typography>
           </Grid>
         ),
@@ -93,5 +95,5 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   requireAuth,
-  connect(mapStateToProps, { getFollowers })
+  connect(mapStateToProps, { getUnfollowers })
 )(Unfollowers);
