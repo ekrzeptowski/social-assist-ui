@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
+import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
 import Layout from "../../layout/Layout";
 import {
@@ -20,6 +22,7 @@ import {
   Button,
   Grid
 } from "@material-ui/core";
+import { green, red } from "@material-ui/core/colors";
 
 const useStyles = makeStyles({
   card: {
@@ -44,6 +47,10 @@ const Home = ({
   },
 }) => {
   const classes = useStyles();
+
+  const followersChange =
+    followersHistory[followersHistory.length - 1]?.followers -
+    followersHistory[followersHistory.length - 2]?.followers;
 
   useEffect(() => {
     if (!totalFollowers && !isLoading && auth.isAuthenticated) {
@@ -81,6 +88,19 @@ const Home = ({
                   <CardContent>
                     <Typography variant="h5">
                       {totalFollowers}
+                      {followersChange > 0 ? (
+                        <>
+                          <ArrowDropUpIcon style={{ color: green[500] }} />
+                          {followersChange}
+                        </>
+                      ) : (
+                        followersChange < 0 && (
+                          <>
+                            <ArrowDropDownIcon style={{ color: red[500] }} />
+                            {followersChange}
+                          </>
+                        )
+                      )}
                     </Typography>
                   </CardContent>
                   <CardActions>
