@@ -1,38 +1,30 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 
-import { getUnfollowers } from "../../store/actions/followersActions";
 import Layout from "../../layout/Layout";
 import Loader from "../../components/Loader/Loader";
 import requireAuth from "../../hoc/requireAuth";
-import PeopleTable from "../../components/Table/Table";
-import { Grid, Typography, Avatar, makeStyles } from "@material-ui/core";
+import { Grid, Typography, Avatar } from "@material-ui/core";
+import LockIcon from "@material-ui/icons/Lock";
 import Link from "@material-ui/core/Link";
+import ServerTable from "../../components/Table/ServerTable";
+import Axios from "axios";
+import dayjs from "dayjs";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+import useTableStyles from "../../components/Table/styles";
 
-const useStyles = makeStyles({
-  avatar: {
-    width: 40,
-  },
-});
+dayjs.extend(localizedFormat);
 
-const Unfollowers = ({
-  getUnfollowers,
-  followers: { unfollowers, isLoading },
-}) => {
-  const classes = useStyles();
-
-  useEffect(() => {
-    if (!unfollowers && !isLoading) {
-      getUnfollowers();
-    }
-  }, []);
+const Unfollowers = ({ auth }) => {
+  const classes = useTableStyles();
 
   const columns = React.useMemo(
     () => [
       {
         accessor: "user.avatar",
         className: classes.avatar,
+        width: 40,
         Cell: ({
           row: {
             original: { user },
@@ -48,25 +40,74 @@ const Unfollowers = ({
           },
         }) => (
           <Grid item>
-            <Typography>{user?.name}</Typography>
-            <Typography variant="caption" color="textSecondary">
-              <Link href={`https://twitter.com/${user?.screen_name}`}>
-                @{user?.screen_name}
-              </Link>
-            </Typography>
+            {user ? (
+              <>
+                <Typography>
+                  {user?.name}
+                  {user?.protected && <LockIcon style={{ fontSize: 16 }} />}
+                </Typography>
+                <Typography variant="caption" color="textSecondary">
+                  <Link href={`https://twitter.com/${user?.screen_name}`}>
+                    @{user?.screen_name}
+                  </Link>
+                </Typography>
+              </>
+            ) : (
+              <Typography>User data not found</Typography>
+            )}
           </Grid>
         ),
       },
       {
         Header: "Following",
         accessor: "user.friends_count",
+        className: classes.followers,
       },
       {
         Header: "Date of unfollow",
         accessor: "date",
+        Cell: ({
+          row: {
+            original: { date },
+          },
+        }) => dayjs(date).format("LL"),
       },
     ],
-    []
+    [classes.avatar, classes.followers]
+  );
+
+  const [data, setData] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+  const [pageCount, setPageCount] = React.useState(0);
+  const [count, setCount] = React.useState(0);
+
+  const fetchData = React.useCallback(
+    ({ pageSize, pageIndex, sortBy }) => {
+      console.log(sortBy);
+      // Set the loading state
+      setLoading(true);
+
+      Axios.get(`/api/followers/unfollowers`, {
+        params: {
+          page: pageIndex + 1,
+          limit: pageSize,
+          sort:
+            sortBy.length > 0
+              ? `${sortBy[0]?.desc ? "-" : ""}${sortBy[0]?.id}`
+              : "",
+        },
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": auth.token,
+        },
+      }).then((res) => {
+        setData(res.data.docs);
+        setPageCount(res.data.totalPages);
+        setCount(res.data.totalDocs);
+        setLoading(false);
+      });
+    },
+    [auth.token]
   );
 
   return (
@@ -74,14 +115,20 @@ const Unfollowers = ({
       <div className="users">
         <h1>Unfollowers page</h1>
         <div className="list">
-          {isLoading ? (
+          {false ? (
             <Loader />
           ) : (
-            unfollowers && (
-              <>
-                <PeopleTable data={unfollowers} columns={columns} />
-              </>
-            )
+            <>
+              <ServerTable
+                data={data}
+                columns={columns}
+                fetchData={fetchData}
+                loading={loading}
+                pageCount={pageCount}
+                count={count}
+                sort={[{ id: "date", desc: true }]}
+              />
+            </>
           )}
         </div>
       </div>
@@ -90,10 +137,7 @@ const Unfollowers = ({
 };
 
 const mapStateToProps = (state) => ({
-  followers: state.followers,
+  auth: state.auth,
 });
 
-export default compose(
-  requireAuth,
-  connect(mapStateToProps, { getUnfollowers })
-)(Unfollowers);
+export default compose(requireAuth, connect(mapStateToProps))(Unfollowers);
