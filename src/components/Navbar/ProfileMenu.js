@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Typography, Button } from "@material-ui/core";
 import { Popover } from "@material-ui/core";
 import { Link } from "react-router-dom";
@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
 
 export const ProfileMenu = ({ anchorEl, onClose, user, onLogOut }) => {
   const classes = useStyles();
-  const theme = useTheme();
 
   return (
     <div>

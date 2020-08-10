@@ -9,7 +9,6 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
 import Layout from "../../layout/Layout";
 import {
-  getFollowers,
   getFollowersHistory,
   getFollowersStats,
 } from "../../store/actions/followersActions";
@@ -20,7 +19,7 @@ import {
   CardContent,
   CardActions,
   Button,
-  Grid
+  Grid,
 } from "@material-ui/core";
 import { green, red } from "@material-ui/core/colors";
 
@@ -35,16 +34,9 @@ const useStyles = makeStyles({
 
 const Home = ({
   auth,
-  // getFollowers,
   getFollowersHistory,
   getFollowersStats,
-  followers: {
-    // followers,
-    isLoading,
-    totalFollowers,
-    totalFollowing,
-    followersHistory,
-  },
+  followers: { isLoading, totalFollowers, totalFollowing, followersHistory },
 }) => {
   const classes = useStyles();
 
@@ -54,18 +46,22 @@ const Home = ({
 
   useEffect(() => {
     if (!totalFollowers && !isLoading && auth.isAuthenticated) {
-      // getFollowers();
       getFollowersStats();
       getFollowersHistory();
     }
-  }, [auth.isAuthenticated]);
+  }, [
+    auth.isAuthenticated,
+    getFollowersHistory,
+    getFollowersStats,
+    isLoading,
+    totalFollowers,
+  ]);
 
   if (!auth.isAuthenticated) return <Redirect to="/login" />;
 
   return (
     <Layout>
       <div className="home-page">
-        {/* <h1>Home page</h1> */}
         {!auth.isAuthenticated ? (
           <div>
             <p>
@@ -137,7 +133,6 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   connect(mapStateToProps, {
-    // getFollowers,
     getFollowersHistory,
     getFollowersStats,
   })

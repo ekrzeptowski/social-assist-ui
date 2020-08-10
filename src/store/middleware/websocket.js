@@ -1,21 +1,24 @@
 import {
-  WEBSOCKET_BROKEN,
+  // WEBSOCKET_BROKEN,
   WEBSOCKET_CLOSED,
   WEBSOCKET_CONNECT,
-  WEBSOCKET_MESSAGE,
+  // WEBSOCKET_MESSAGE,
   WEBSOCKET_OPEN,
-  WEBSOCKET_SEND,
+  // WEBSOCKET_SEND,
   WEBSOCKET_DISCONNECT,
   SYNC_CHANGE,
   SYNC_SUCCESS,
-  GET_FOLLOWERS_LOADING,
-  SYNC_FAIL
+  // GET_FOLLOWERS_LOADING,
+  SYNC_FAIL,
 } from "../types";
-import { getFollowers } from "../actions/followersActions";
+import {
+  getFollowersStats,
+  getFollowersHistory,
+} from "../actions/followersActions";
 
 const socketMiddleware = () => {
   let socket = null;
-  const onMessage = store => event => {
+  const onMessage = (store) => (event) => {
     const payload = JSON.parse(event.data);
     switch (payload.type) {
       case "SYNC":
@@ -23,29 +26,33 @@ const socketMiddleware = () => {
           case "INFO":
             store.dispatch({
               type: SYNC_CHANGE,
-              payload: { message: payload.message }
+              payload: { message: payload.message },
             });
             break;
           case "DONE":
             store.dispatch({
               type: SYNC_SUCCESS,
-              payload: { message: payload.message }
+              payload: { message: payload.message },
             });
-            store.dispatch(getFollowers());
+            store.dispatch(getFollowersStats());
+            store.dispatch(getFollowersHistory());
+            break;
           case "ERROR":
             store.dispatch({
               type: SYNC_FAIL,
-              payload: { error: payload.message}
-            })
+              payload: { error: payload.message },
+            });
+            break;
           default:
             break;
         }
+        break;
       default:
         console.log(payload);
         break;
     }
   };
-  return store => next => action => {
+  return (store) => (next) => (action) => {
     switch (action.type) {
       case WEBSOCKET_CONNECT:
         if (socket !== null) {

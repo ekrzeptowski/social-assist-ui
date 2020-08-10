@@ -1,7 +1,7 @@
 import React from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import { logOutUser } from "../../store/actions/authActions";
 import { toggleSidebar } from "../../store/actions/navActions";
@@ -13,9 +13,8 @@ import {
   IconButton,
   Button,
   Typography,
-  Avatar
+  Avatar,
 } from "@material-ui/core";
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuIcon from "@material-ui/icons/Menu";
 import SyncIcon from "@material-ui/icons/Sync";
 import { ProfileMenu } from "./ProfileMenu";
@@ -23,53 +22,53 @@ import SyncMenu from "./SyncMenu";
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex"
+    display: "flex",
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    })
+      duration: theme.transitions.duration.leavingScreen,
+    }),
   },
   appBarShift: {
     // marginLeft: drawerWidth,
     // width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
   menuButton: {
-    marginRight: 36
+    marginRight: 36,
   },
   hide: {
-    display: "none"
+    display: "none",
   },
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
-    whiteSpace: "nowrap"
+    whiteSpace: "nowrap",
   },
   drawerOpen: {
     width: drawerWidth,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
   drawerClose: {
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
+      duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: "hidden",
     width: theme.spacing(7) + 1,
     [theme.breakpoints.up("sm")]: {
-      width: theme.spacing(9) + 1
-    }
+      width: theme.spacing(9) + 1,
+    },
   },
   toolbar: {
     display: "flex",
@@ -77,29 +76,29 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "flex-end",
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
-    ...theme.mixins.toolbar
+    ...theme.mixins.toolbar,
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3)
+    padding: theme.spacing(3),
   },
   title: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   avatar: {
-    marginRight: 8
+    marginRight: 8,
   },
   "@keyframes rotateIcon": {
     from: {
-      transform: "rotate(0deg)"
+      transform: "rotate(0deg)",
     },
     to: {
-      transform: "rotate(360deg)"
-    }
+      transform: "rotate(360deg)",
+    },
   },
   rotateAnimation: {
-    animation: "$rotateIcon 2s linear infinite"
-  }
+    animation: "$rotateIcon 2s linear infinite",
+  },
 }));
 
 const Navbar = ({ auth, nav, sync, toggleSidebar, logOutUser, history }) => {
@@ -108,7 +107,7 @@ const Navbar = ({ auth, nav, sync, toggleSidebar, logOutUser, history }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [syncAnchorEl, setSyncAnchorEl] = React.useState(null);
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -116,7 +115,7 @@ const Navbar = ({ auth, nav, sync, toggleSidebar, logOutUser, history }) => {
     setAnchorEl(null);
   };
 
-  const handleClickSync = event => {
+  const handleClickSync = (event) => {
     setSyncAnchorEl(event.currentTarget);
   };
 
@@ -124,7 +123,7 @@ const Navbar = ({ auth, nav, sync, toggleSidebar, logOutUser, history }) => {
     setSyncAnchorEl(null);
   };
 
-  const onLogOut = event => {
+  const onLogOut = (event) => {
     event.preventDefault();
     logOutUser(history);
   };
@@ -133,7 +132,7 @@ const Navbar = ({ auth, nav, sync, toggleSidebar, logOutUser, history }) => {
     <AppBar
       position="fixed"
       className={clsx(classes.appBar, {
-        [classes.appBarShift]: nav.isExpanded
+        [classes.appBarShift]: nav.isExpanded,
       })}
     >
       <Toolbar>
@@ -173,10 +172,10 @@ const Navbar = ({ auth, nav, sync, toggleSidebar, logOutUser, history }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
   nav: state.nav,
-  sync: state.sync
+  sync: state.sync,
 });
 
 export default compose(

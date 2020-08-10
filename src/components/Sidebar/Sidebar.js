@@ -1,19 +1,11 @@
 import React from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import { logOutUser } from "../../store/actions/authActions";
-// import "./styles.css";
 import clsx from "clsx";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Button,
-  Typography,
-  Avatar,
   Drawer,
   List,
   ListItemIcon,
@@ -21,8 +13,6 @@ import {
   ListItem,
   Divider,
 } from "@material-ui/core";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import SyncIcon from "@material-ui/icons/Sync";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import DashboardIcon from "@material-ui/icons/Dashboard";
@@ -115,7 +105,6 @@ function ListItemLink(props) {
 
 const Sidebar = ({ nav }) => {
   const classes = useStyles();
-  const theme = useTheme();
 
   return (
     <Drawer
@@ -180,7 +169,4 @@ const mapStateToProps = (state) => ({
   nav: state.nav,
 });
 
-export default compose(
-  // withRouter,
-  connect(mapStateToProps)
-)(Sidebar);
+export default compose(connect(mapStateToProps))(Sidebar);

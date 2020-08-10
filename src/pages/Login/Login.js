@@ -1,12 +1,10 @@
 import React from "react";
-import { Link, withRouter, Redirect } from "react-router-dom";
+import { withRouter, Redirect } from "react-router-dom";
 
 import { compose } from "redux";
 import { connect } from "react-redux";
 
 import { TWITTER_AUTH_LINK } from "../../constants";
-
-// import "./styles.css";
 
 import Typography from "@material-ui/core/Typography";
 import { Button, Container } from "@material-ui/core";
@@ -47,9 +45,9 @@ const Login = ({ auth, history }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
 });
 
 export default compose(withRouter, connect(mapStateToProps))(Login);

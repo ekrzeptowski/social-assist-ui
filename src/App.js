@@ -62,7 +62,6 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
           <Route path="/unfollowers" component={Unfollowers} />
           <Route path="/settings" component={Settings} />
           <Route path="/notfound" component={NotFound} />
-          <Route exact path="/:username" component={Profile} />
           <Route exact path="/" component={Home} />
           <Route component={NotFound} />
         </Switch>
