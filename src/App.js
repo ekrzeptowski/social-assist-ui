@@ -6,7 +6,6 @@ import Cookies from "js-cookie";
 
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
-import Profile from "./pages/Profile/Profile";
 import NotFound from "./pages/NotFound/NotFound";
 
 import Loader from "./components/Loader/Loader";
@@ -17,12 +16,11 @@ import Unfollowers from "./pages/Unfollowers/Unfollowers";
 
 import { websocketConnect } from "./store/actions/websocketActions";
 import Settings from "./pages/Settings/Settings";
+import Following from "./pages/Following/Following";
+import NotFollowing from "./pages/NotFollowing/NotFollowing";
+import NotFollowers from "./pages/NotFollowers/NotFollowers";
 
 const App = ({ logInUserWithOauth, auth, loadMe }) => {
-  // useEffect(() => {
-  //   loadMe();
-  // }, [loadMe]);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -33,7 +31,7 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
       // Cookies.remove('x-auth-cookie');
       logInUserWithOauth(cookieJwt);
     }
-  }, []);
+  });
 
   useEffect(() => {
     if (!auth.isLoading && auth.token && !auth.isAuthenticated) {
@@ -51,13 +49,16 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
     if (auth.isAuthenticated) {
       dispatch(websocketConnect("wss://localhost:5000/"));
     }
-  }, [auth.isAuthenticated]);
+  }, [auth.isAuthenticated, dispatch]);
   return (
     <>
       {auth.appLoaded ? (
         <Switch>
           <Route path="/login" component={Login} />
           <Route path="/followers" component={Followers} />
+          <Route path="/following" component={Following} />
+          <Route path="/notfollowers" component={NotFollowers} />
+          <Route path="/notfollowing" component={NotFollowing} />
           <Route path="/unfollowers" component={Unfollowers} />
           <Route path="/settings" component={Settings} />
           <Route path="/notfound" component={NotFound} />

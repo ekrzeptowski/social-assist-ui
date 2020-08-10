@@ -145,28 +145,24 @@ const Sidebar = ({ nav }) => {
           primary="Unfollowers"
           icon={<DeleteIcon />}
         />
-
-        <ListItem button>
-          <ListItemIcon>
-            <DeleteIcon />
-          </ListItemIcon>
-          <ListItemText>I don't follow back</ListItemText>
-        </ListItem>
+        <ListItemLink
+          to="/notfollowing"
+          primary="I don't follow back"
+          icon={<DeleteIcon />}
+        />
       </List>
       <Divider />
       <List>
-        <ListItem button>
-          <ListItemIcon>
-            <SettingsIcon />
-          </ListItemIcon>
-          <ListItemText>Following</ListItemText>
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <SettingsIcon />
-          </ListItemIcon>
-          <ListItemText>Not following back</ListItemText>
-        </ListItem>
+        <ListItemLink
+          to="/following"
+          primary="Following"
+          icon={<SettingsIcon />}
+        />
+        <ListItemLink
+          to="/notfollowers"
+          primary="Not following back"
+          icon={<SettingsIcon />}
+        />
       </List>
       <Divider />
       <List>
