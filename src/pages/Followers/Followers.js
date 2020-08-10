@@ -1,35 +1,27 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 
-import { getFollowers } from "../../store/actions/followersActions";
 import Layout from "../../layout/Layout";
 import Loader from "../../components/Loader/Loader";
 import requireAuth from "../../hoc/requireAuth";
-import PeopleTable from "../../components/Table/Table";
-import { Grid, Typography, Avatar, makeStyles } from "@material-ui/core";
+import ServerTable from "../../components/Table/ServerTable";
+import { Grid, Typography, Avatar } from "@material-ui/core";
+import LockIcon from "@material-ui/icons/Lock";
+import Link from "@material-ui/core/Link";
+import useTableStyles from "../../components/Table/styles";
+import Axios from "axios";
 
-const useStyles = makeStyles({
-  avatar: {
-    width: 40,
-  },
-});
-
-const Followers = ({ getFollowers, followers: { followers, isLoading } }) => {
-  const classes = useStyles();
-  
-  useEffect(() => {
-    if (followers.length == 0 && !isLoading) {
-      getFollowers();
-    }
-  }, []);
+const Followers = ({ auth }) => {
+  const classes = useTableStyles();
 
   const columns = React.useMemo(
     () => [
       {
         accessor: "avatar",
         className: classes.avatar,
+        width: 40,
+        // style: { padding: 0, width: 20 },
         Cell: ({ row: { original } }) => (
           <Avatar alt={original.name} src={original.avatar} />
         ),
@@ -39,19 +31,65 @@ const Followers = ({ getFollowers, followers: { followers, isLoading } }) => {
         accessor: "name",
         Cell: ({ row: { original } }) => (
           <Grid item>
-            <Typography>{original.name}</Typography>
+            <Typography>
+              {original.name}
+              {original.protected && <LockIcon style={{ fontSize: 16 }} />}
+            </Typography>
             <Typography variant="caption" color="textSecondary">
-              @{original.screen_name}
+              <Link href={`https://twitter.com/${original.screen_name}`}>
+                @{original.screen_name}
+              </Link>
             </Typography>
           </Grid>
         ),
       },
       {
+        Header: "Followers",
+        accessor: "followers_count",
+        className: classes.followers,
+        width: 60,
+      },
+      {
         Header: "Following",
         accessor: "friends_count",
+        className: classes.followers,
+        width: 60,
       },
     ],
-    []
+    [classes.avatar, classes.followers]
+  );
+
+  const [data, setData] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+  const [pageCount, setPageCount] = React.useState(0);
+  const [count, setCount] = React.useState(0);
+
+  const fetchData = React.useCallback(
+    ({ pageSize, pageIndex, sortBy }) => {
+      // Set the loading state
+      setLoading(true);
+
+      Axios.get(`/api/followers/followers`, {
+        params: {
+          page: pageIndex + 1,
+          limit: pageSize,
+          sort:
+            sortBy.length > 0
+              ? `${sortBy[0]?.desc ? "-" : ""}${sortBy[0]?.id}`
+              : "",
+        },
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": auth.token,
+        },
+      }).then((res) => {
+        setData(res.data.docs);
+        setPageCount(res.data.totalPages);
+        setCount(res.data.totalDocs);
+        setLoading(false);
+      });
+    },
+    [auth.token]
   );
 
   return (
@@ -59,11 +97,18 @@ const Followers = ({ getFollowers, followers: { followers, isLoading } }) => {
       <div className="users">
         <h1>Followers page</h1>
         <div className="list">
-          {isLoading ? (
+          {false ? (
             <Loader />
           ) : (
             <>
-              <PeopleTable data={followers} columns={columns} />
+              <ServerTable
+                data={data}
+                columns={columns}
+                fetchData={fetchData}
+                loading={loading}
+                pageCount={pageCount}
+                count={count}
+              />
             </>
           )}
         </div>
@@ -73,10 +118,7 @@ const Followers = ({ getFollowers, followers: { followers, isLoading } }) => {
 };
 
 const mapStateToProps = (state) => ({
-  followers: state.followers,
+  auth: state.auth,
 });
 
-export default compose(
-  requireAuth,
-  connect(mapStateToProps, { getFollowers })
-)(Followers);
+export default compose(requireAuth, connect(mapStateToProps))(Followers);
