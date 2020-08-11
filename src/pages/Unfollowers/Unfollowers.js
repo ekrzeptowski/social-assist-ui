@@ -10,11 +10,8 @@ import LockIcon from "@material-ui/icons/Lock";
 import Link from "@material-ui/core/Link";
 import ServerTable from "../../components/Table/ServerTable";
 import Axios from "axios";
-import dayjs from "dayjs";
-import localizedFormat from "dayjs/plugin/localizedFormat";
 import useTableStyles from "../../components/Table/styles";
-
-dayjs.extend(localizedFormat);
+import { format, parseISO } from "date-fns";
 
 const Unfollowers = ({ auth }) => {
   const classes = useTableStyles();
@@ -70,7 +67,7 @@ const Unfollowers = ({ auth }) => {
           row: {
             original: { date },
           },
-        }) => dayjs(date).format("LL"),
+        }) => date ? format(parseISO(date), "do MMM") : null,
       },
     ],
     [classes.avatar, classes.followers]

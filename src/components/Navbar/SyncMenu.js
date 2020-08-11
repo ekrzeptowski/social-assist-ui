@@ -4,12 +4,8 @@ import { Typography, Button } from "@material-ui/core";
 import { Popover } from "@material-ui/core";
 import { connect } from "react-redux";
 
-import dayjs from "dayjs";
-import localizedFormat from "dayjs/plugin/localizedFormat";
-
 import { syncData } from "../../store/actions/syncActions";
-
-dayjs.extend(localizedFormat);
+import { formatDistance } from "date-fns";
 
 const useStyles = makeStyles((theme) => ({
   popover: {
@@ -57,7 +53,10 @@ const SyncMenu = ({ anchorEl, onClose, followers, sync, syncData }) => {
       >
         <div className={classes.container}>
           <Typography>
-            Synced at: {dayjs(followers.fetchedAt).format("LLL")}
+            Synced{" "}
+            {followers.fetchedAt &&
+              formatDistance(new Date(followers.fetchedAt), new Date())}{" "}
+            ago
           </Typography>
           <Typography>Status: {sync.statusMessage || sync.error}</Typography>
           <div className={classes.actions}>
