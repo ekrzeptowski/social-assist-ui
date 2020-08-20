@@ -9,7 +9,6 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import Layout from "../../layout/Layout";
 import { editUser } from "../../store/actions/userActions";
 
 const Settings = ({ auth, editUser }) => {
@@ -18,8 +17,7 @@ const Settings = ({ auth, editUser }) => {
   const onSubmit = (data) => editUser(auth.me.id, { settings: data });
 
   return (
-    <Layout>
-      {/* <> */}
+    <>
       <Typography variant="h5">Settings</Typography>
       {auth.me && (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -43,8 +41,7 @@ const Settings = ({ auth, editUser }) => {
           </Button>
         </form>
       )}
-      {/* </> */}
-    </Layout>
+    </>
   );
 };
 

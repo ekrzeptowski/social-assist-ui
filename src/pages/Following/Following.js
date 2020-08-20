@@ -2,7 +2,6 @@ import React from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 
-import Layout from "../../layout/Layout";
 import Loader from "../../components/Loader/Loader";
 import requireAuth from "../../hoc/requireAuth";
 import { Grid, Typography, Avatar } from "@material-ui/core";
@@ -84,7 +83,6 @@ const Following = ({ auth }) => {
   );
 
   return (
-    <Layout>
       <div className="users">
         <h1>Following page</h1>
         <div className="list">
@@ -104,7 +102,6 @@ const Following = ({ auth }) => {
           )}
         </div>
       </div>
-    </Layout>
   );
 };
 

@@ -2,7 +2,6 @@ import React from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 
-import Layout from "../../layout/Layout";
 import Loader from "../../components/Loader/Loader";
 import requireAuth from "../../hoc/requireAuth";
 import { Grid, Typography, Avatar } from "@material-ui/core";
@@ -108,28 +107,26 @@ const Unfollowers = ({ auth }) => {
   );
 
   return (
-    <Layout>
-      <div className="users">
-        <h1>Unfollowers page</h1>
-        <div className="list">
-          {false ? (
-            <Loader />
-          ) : (
-            <>
-              <ServerTable
-                data={data}
-                columns={columns}
-                fetchData={fetchData}
-                loading={loading}
-                pageCount={pageCount}
-                count={count}
-                sort={[{ id: "date", desc: true }]}
-              />
-            </>
-          )}
-        </div>
+    <div className="users">
+      <h1>Unfollowers page</h1>
+      <div className="list">
+        {false ? (
+          <Loader />
+        ) : (
+          <>
+            <ServerTable
+              data={data}
+              columns={columns}
+              fetchData={fetchData}
+              loading={loading}
+              pageCount={pageCount}
+              count={count}
+              sort={[{ id: "date", desc: true }]}
+            />
+          </>
+        )}
       </div>
-    </Layout>
+    </div>
   );
 };
 

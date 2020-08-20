@@ -19,6 +19,7 @@ import Settings from "./pages/Settings/Settings";
 import Following from "./pages/Following/Following";
 import NotFollowing from "./pages/NotFollowing/NotFollowing";
 import NotFollowers from "./pages/NotFollowers/NotFollowers";
+import Layout from "./layout/Layout";
 
 const App = ({ logInUserWithOauth, auth, loadMe }) => {
   const dispatch = useDispatch();
@@ -53,18 +54,29 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
   return (
     <>
       {auth.appLoaded ? (
-        <Switch>
-          <Route path="/login" component={Login} />
-          <Route path="/followers" component={Followers} />
-          <Route path="/following" component={Following} />
-          <Route path="/notfollowers" component={NotFollowers} />
-          <Route path="/notfollowing" component={NotFollowing} />
-          <Route path="/unfollowers" component={Unfollowers} />
-          <Route path="/settings" component={Settings} />
-          <Route path="/notfound" component={NotFound} />
-          <Route exact path="/" component={Home} />
-          <Route component={NotFound} />
-        </Switch>
+        <>
+          {auth.isAuthenticated ? (
+            <Layout>
+              <Switch>
+                <Route path="/login" component={Login} />
+                <Route path="/followers" component={Followers} />
+                <Route path="/following" component={Following} />
+                <Route path="/notfollowers" component={NotFollowers} />
+                <Route path="/notfollowing" component={NotFollowing} />
+                <Route path="/unfollowers" component={Unfollowers} />
+                <Route path="/settings" component={Settings} />
+                <Route path="/notfound" component={NotFound} />
+                <Route exact path="/" component={Home} />
+                <Route component={NotFound} />
+              </Switch>
+            </Layout>
+          ) : (
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/login" component={Login} />
+            </Switch>
+          )}
+        </>
       ) : (
         <Loader />
       )}

@@ -60,7 +60,6 @@ const Home = ({
   if (!auth.isAuthenticated) return <Redirect to="/login" />;
 
   return (
-    <Layout>
       <div className="home-page">
         {!auth.isAuthenticated ? (
           <div>
@@ -122,7 +121,6 @@ const Home = ({
           </>
         )}
       </div>
-    </Layout>
   );
 };
 

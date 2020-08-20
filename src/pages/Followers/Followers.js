@@ -2,7 +2,6 @@ import React from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 
-import Layout from "../../layout/Layout";
 import Loader from "../../components/Loader/Loader";
 import requireAuth from "../../hoc/requireAuth";
 import ServerTable from "../../components/Table/ServerTable";
@@ -93,27 +92,23 @@ const Followers = ({ auth }) => {
   );
 
   return (
-    <Layout>
-      <div className="users">
-        <h1>Followers page</h1>
-        <div className="list">
-          {false ? (
-            <Loader />
-          ) : (
-            <>
-              <ServerTable
-                data={data}
-                columns={columns}
-                fetchData={fetchData}
-                loading={loading}
-                pageCount={pageCount}
-                count={count}
-              />
-            </>
-          )}
-        </div>
-      </div>
-    </Layout>
+    <>
+      <h1>Followers page</h1>
+        {false ? (
+          <Loader />
+        ) : (
+          <>
+            <ServerTable
+              data={data}
+              columns={columns}
+              fetchData={fetchData}
+              loading={loading}
+              pageCount={pageCount}
+              count={count}
+            />
+          </>
+        )}
+    </>
   );
 };
 
