@@ -14,6 +14,7 @@ import {
   Button,
   Typography,
   Avatar,
+  Hidden,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import SyncIcon from "@material-ui/icons/Sync";
@@ -41,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
+  grow: {
+    flexGrow: 1,
+  },
   menuButton: {
     marginRight: 36,
   },
@@ -66,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
     }),
     overflowX: "hidden",
     width: theme.spacing(7) + 1,
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       width: theme.spacing(9) + 1,
     },
   },
@@ -136,16 +140,23 @@ const Navbar = ({ auth, nav, sync, toggleSidebar, logOutUser, history }) => {
       })}
     >
       <Toolbar>
-        <IconButton color="inherit" onClick={toggleSidebar}>
-          <MenuIcon />
-        </IconButton>
-        <Typography variant="h6" noWrap className={classes.title}>
-          Social Assisstant
-        </Typography>
+        <Hidden xsDown>
+          <IconButton color="inherit" onClick={toggleSidebar}>
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap className={classes.title}>
+            Social Assisstant
+          </Typography>
+        </Hidden>
+        <Hidden smUp>
+          <div className={classes.grow}></div>
+        </Hidden>
         {auth.isAuthenticated ? (
           <>
             <IconButton color="inherit" onClick={handleClickSync}>
-              <SyncIcon className={sync.isLoading && classes.rotateAnimation} />
+              <SyncIcon
+                className={sync.isLoading ? classes.rotateAnimation : ""}
+              />
             </IconButton>
             <Button color="inherit" onClick={handleClick}>
               <Avatar

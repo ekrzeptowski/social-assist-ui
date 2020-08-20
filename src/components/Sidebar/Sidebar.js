@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import {
   Drawer,
   List,
@@ -12,38 +12,19 @@ import {
   ListItemText,
   ListItem,
   Divider,
+  useMediaQuery,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import SettingsIcon from "@material-ui/icons/Settings";
 
+import { toggleSidebar } from "../../store/actions/navActions";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: 36,
-  },
-  hide: {
-    display: "none",
   },
   drawer: {
     width: drawerWidth,
@@ -63,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: "hidden",
-    width: theme.spacing(7) + 1,
+    width: 0,
     [theme.breakpoints.up("sm")]: {
       width: theme.spacing(7) + 1,
     },
@@ -82,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ListItemLink(props) {
+export const ListItemLink = (props) => {
   const { icon, primary, to } = props;
 
   const renderLink = React.useMemo(
@@ -101,66 +82,81 @@ function ListItemLink(props) {
       </ListItem>
     </li>
   );
-}
+};
 
-const Sidebar = ({ nav }) => {
+const Sidebar = ({ nav, toggleSidebar }) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("xs"));
 
   return (
     <Drawer
-      variant="permanent"
-      className={clsx(classes.drawer, {
-        [classes.drawerOpen]: nav.isExpanded,
-        [classes.drawerClose]: !nav.isExpanded,
-      })}
-      classes={{
-        paper: clsx({
-          [classes.drawerOpen]: nav.isExpanded,
-          [classes.drawerClose]: !nav.isExpanded,
-        }),
-      }}
+      variant={mobile ? "temporary" : "permanent"}
+      anchor="left"
+      open={nav.isExpanded}
+      onClose={toggleSidebar}
+      className={
+        !mobile
+          ? clsx(classes.drawer, {
+              [classes.drawerOpen]: nav.isExpanded,
+              [classes.drawerClose]: !nav.isExpanded,
+            })
+          : null
+      }
+      classes={
+        !mobile
+          ? {
+              paper: clsx({
+                [classes.drawerOpen]: nav.isExpanded,
+                [classes.drawerClose]: !nav.isExpanded,
+              }),
+            }
+          : null
+      }
     >
       <div className={classes.toolbar}></div>
-      <List>
-        <ListItemLink to="/" primary="Overview" icon={<DashboardIcon />} />
-        <ListItemLink
-          to="/followers"
-          primary="Followers"
-          icon={<AddCircleIcon />}
-        />
+      <div onClick={mobile ? toggleSidebar : undefined}>
+        <List>
+          <ListItemLink to="/" primary="Overview" icon={<DashboardIcon />} />
+          <ListItemLink
+            to="/followers"
+            primary="Followers"
+            icon={<AddCircleIcon />}
+          />
 
-        <ListItemLink
-          to="/unfollowers"
-          primary="Unfollowers"
-          icon={<DeleteIcon />}
-        />
-        <ListItemLink
-          to="/notfollowing"
-          primary="I don't follow back"
-          icon={<DeleteIcon />}
-        />
-      </List>
-      <Divider />
-      <List>
-        <ListItemLink
-          to="/following"
-          primary="Following"
-          icon={<SettingsIcon />}
-        />
-        <ListItemLink
-          to="/notfollowers"
-          primary="Not following back"
-          icon={<SettingsIcon />}
-        />
-      </List>
-      <Divider />
-      <List>
-        <ListItemLink
-          to="/settings"
-          primary="Settings"
-          icon={<SettingsIcon />}
-        />
-      </List>
+          <ListItemLink
+            to="/unfollowers"
+            primary="Unfollowers"
+            icon={<DeleteIcon />}
+          />
+          <ListItemLink
+            to="/notfollowing"
+            primary="I don't follow back"
+            icon={<DeleteIcon />}
+          />
+        </List>
+        <Divider />
+        <List>
+          <ListItemLink
+            to="/following"
+            primary="Following"
+            icon={<SettingsIcon />}
+          />
+          <ListItemLink
+            to="/notfollowers"
+            primary="Not following back"
+            icon={<SettingsIcon />}
+          />
+        </List>
+        <Divider />
+        <List>
+          <ListItemLink
+            to="/settings"
+            primary="Settings"
+            icon={<SettingsIcon />}
+          />
+        </List>
+      </div>
     </Drawer>
   );
 };
@@ -169,4 +165,4 @@ const mapStateToProps = (state) => ({
   nav: state.nav,
 });
 
-export default compose(connect(mapStateToProps))(Sidebar);
+export default compose(connect(mapStateToProps, { toggleSidebar }))(Sidebar);

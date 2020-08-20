@@ -4,58 +4,14 @@ import PropTypes from "prop-types";
 import Navbar from "../components/Navbar/Navbar";
 import Sidebar from "../components/Sidebar/Sidebar";
 
-import { makeStyles } from "@material-ui/core/styles";
-import { Container } from "@material-ui/core";
-
-const drawerWidth = 240;
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { Container, useMediaQuery } from "@material-ui/core";
+import MobileNav from "../components/Navbar/MobileNav";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: 36,
-  },
-  hide: {
-    display: "none",
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: "nowrap",
-  },
-  drawerOpen: {
-    width: drawerWidth,
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerClose: {
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: "hidden",
-    width: theme.spacing(7) + 1,
-    [theme.breakpoints.up("sm")]: {
-      width: theme.spacing(9) + 1,
-    },
+    position: "relative",
   },
   toolbar: {
     display: "flex",
@@ -65,6 +21,12 @@ const useStyles = makeStyles((theme) => ({
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
   },
+  mobileNav: {
+    position: "fixed",
+    zIndex: 5,
+    width: "100%",
+    bottom: 0,
+  },
   content: {
     flexGrow: 1,
     // padding: theme.spacing(3)
@@ -73,14 +35,20 @@ const useStyles = makeStyles((theme) => ({
 
 const Layout = ({ children }) => {
   const classes = useStyles();
+  const theme = useTheme();
+
+  const mobile = useMediaQuery(theme.breakpoints.down("xs"));
+
   return (
     <div className={classes.root}>
       <Navbar />
-      <Sidebar />
+      {!mobile && <Sidebar />}
       <div className={classes.content}>
         <div className={classes.toolbar} />
         <Container maxWidth="md">{children}</Container>
+        {mobile && <div className={classes.toolbar} />}
       </div>
+      {mobile && <MobileNav className={classes.mobileNav} />}
     </div>
   );
 };
