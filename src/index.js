@@ -8,6 +8,7 @@ import thunk from "redux-thunk";
 import App from "./App";
 import rootReducer from "./store/reducers";
 import socketMiddleware from "./store/middleware/websocket";
+import { CssBaseline } from "@material-ui/core";
 
 const initialState = {};
 
@@ -24,6 +25,7 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
+    <CssBaseline/>
     <Router>
       <Switch>
         <Route path="/" component={App} />
