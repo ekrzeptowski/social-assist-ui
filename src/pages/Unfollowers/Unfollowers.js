@@ -38,7 +38,7 @@ const Unfollowers = ({ auth }) => {
           <Grid item>
             {user ? (
               <>
-                <Typography>
+                <Typography className={user?.suspended && classes.suspended}>
                   {user?.name}
                   {user?.protected && <LockIcon style={{ fontSize: 16 }} />}
                 </Typography>
@@ -66,10 +66,10 @@ const Unfollowers = ({ auth }) => {
           row: {
             original: { date },
           },
-        }) => date ? format(parseISO(date), "do MMM") : null,
+        }) => (date ? format(parseISO(date), "do MMM") : null),
       },
     ],
-    [classes.avatar, classes.followers]
+    [classes.avatar, classes.followers, classes.suspended]
   );
 
   const [data, setData] = React.useState([]);
