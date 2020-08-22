@@ -11,9 +11,20 @@ import {
   TableFooter,
   TablePagination,
   TableSortLabel,
+  useTheme,
+  useMediaQuery,
+  Box,
+  MenuItem,
+  Button,
+  Menu,
 } from "@material-ui/core";
 
 import Skeleton from "@material-ui/lab/Skeleton";
+import useTableStyles from "./styles";
+
+import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 
 const ServerTable = ({
   columns,
@@ -47,6 +58,10 @@ const ServerTable = ({
     usePagination
   );
 
+  const theme = useTheme();
+  const classes = useTableStyles();
+  const mobile = useMediaQuery(theme.breakpoints.down("xs"));
+
   React.useEffect(() => {
     fetchData({ pageIndex, pageSize, sortBy });
   }, [fetchData, pageIndex, pageSize, sortBy]);
@@ -61,13 +76,72 @@ const ServerTable = ({
 
   return (
     <TableContainer>
-      <Table size="small" {...getTableProps()}>
-        <TableHead>
-          {headerGroups.map((headerGroup) => (
-            <TableRow {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
+      {mobile && (
+        <>
+          {sortBy[0]?.id ? "Sorting by:" : "Sort by:"}{" "}
+          {
+            <PopupState variant="popover" popupId="sortByMenu">
+              {(popupState) => (
                 <>
-                  {column.canSort ? (
+                  <Button {...bindTrigger(popupState)}>
+                    {sortBy[0]?.id ? (
+                      <>
+                        {headerGroups[0]?.headers[
+                          headerGroups[0]?.headers.findIndex(
+                            (item) => item.id === sortBy[0]?.id
+                          )
+                        ].render("Header")}
+                        {sortBy[0]?.desc ? (
+                          <ArrowDropDownIcon />
+                        ) : (
+                          <ArrowDropUpIcon />
+                        )}
+                      </>
+                    ) : (
+                      "Select item"
+                    )}
+                  </Button>
+                  <Menu {...bindMenu(popupState)}>
+                    {headerGroups.map((headerGroup) => {
+                      return headerGroup.headers.map(
+                        (column) =>
+                          column.Header.length > 0 && (
+                            <MenuItem
+                              key={column.id}
+                              value={column.id}
+                              {...column.getHeaderProps([
+                                column.getSortByToggleProps(),
+                              ])}
+                              onClick={() => {
+                                column.toggleSortBy();
+                                popupState.close();
+                              }}
+                            >
+                              {column.render("Header")}
+                              {column.isSorted &&
+                                (column.isSortedDesc ? (
+                                  <ArrowDropDownIcon />
+                                ) : (
+                                  <ArrowDropUpIcon />
+                                ))}
+                            </MenuItem>
+                          )
+                      );
+                    })}
+                  </Menu>
+                </>
+              )}
+            </PopupState>
+          }
+        </>
+      )}
+      <Table size="small" {...getTableProps()}>
+        {!mobile && (
+          <TableHead>
+            {headerGroups.map((headerGroup) => (
+              <TableRow {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) =>
+                  column.canSort ? (
                     <TableCell
                       {...column.getHeaderProps([
                         column.getSortByToggleProps(),
@@ -90,12 +164,12 @@ const ServerTable = ({
                     >
                       {column.render("Header")}
                     </TableCell>
-                  )}
-                </>
-              ))}
-            </TableRow>
-          ))}
-        </TableHead>
+                  )
+                )}
+              </TableRow>
+            ))}
+          </TableHead>
+        )}
         <TableBody {...getTableBodyProps()}>
           {data.length === 0 &&
             [...Array(pageSize)].map((item, i) => (
@@ -113,30 +187,80 @@ const ServerTable = ({
             prepareRow(row);
             return (
               <TableRow {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return (
-                    <TableCell
-                      {...cell.getCellProps([
-                        {
-                          className: cell.column.className,
-                          style: cell.column.style,
-                        },
-                      ])}
-                      style={cell.style}
-                    >
-                      {cell.render(
-                        loading ? (
-                          <Skeleton
-                            variant="text"
-                            width={cell.width}
-                          ></Skeleton>
-                        ) : (
-                          "Cell"
+                {mobile
+                  ? row.cells.map((cell, index) => {
+                      return (
+                        index <= 1 && (
+                          <TableCell
+                            {...cell.getCellProps([
+                              {
+                                className: cell.column.className,
+                                style: cell.column.style,
+                              },
+                            ])}
+                            style={cell.style}
+                          >
+                            {cell.render(
+                              loading ? (
+                                <Skeleton
+                                  variant="text"
+                                  width={cell.width}
+                                ></Skeleton>
+                              ) : mobile && index === 1 ? (
+                                (cell) => (
+                                  <>
+                                    {cell.cell.render("Cell")}
+                                    <Box display="flex" flexWrap="wrap">
+                                      {row.cells.map((cell, index) => {
+                                        return (
+                                          index > 1 && (
+                                            <div
+                                              key={index}
+                                              className={classes.nestedCell}
+                                            >
+                                              {cell.column.Header}:{" "}
+                                              <Box fontWeight={700}>
+                                                {cell.render("Cell")}
+                                              </Box>
+                                            </div>
+                                          )
+                                        );
+                                      })}
+                                    </Box>
+                                  </>
+                                )
+                              ) : (
+                                "Cell"
+                              )
+                            )}
+                          </TableCell>
                         )
-                      )}
-                    </TableCell>
-                  );
-                })}
+                      );
+                    })
+                  : row.cells.map((cell) => {
+                      return (
+                        <TableCell
+                          {...cell.getCellProps([
+                            {
+                              className: cell.column.className,
+                              style: cell.column.style,
+                            },
+                          ])}
+                          style={cell.style}
+                        >
+                          {cell.render(
+                            loading ? (
+                              <Skeleton
+                                variant="text"
+                                width={cell.width}
+                              ></Skeleton>
+                            ) : (
+                              "Cell"
+                            )
+                          )}
+                        </TableCell>
+                      );
+                    })}
               </TableRow>
             );
           })}
@@ -146,6 +270,7 @@ const ServerTable = ({
             <TablePagination
               rowsPerPageOptions={[10, 20, 50, 100]}
               colSpan={3}
+              classes={{ toolbar: classes.tablePagination }}
               count={count}
               rowsPerPage={pageSize}
               page={pageIndex}

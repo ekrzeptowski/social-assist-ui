@@ -1,3 +1,5 @@
+import { grey } from "@material-ui/core/colors";
+
 const { makeStyles } = require("@material-ui/core");
 
 const useTableStyles = makeStyles({
@@ -7,6 +9,22 @@ const useTableStyles = makeStyles({
   },
   followers: {
     width: 60,
+  },
+  suspended: {
+    color: grey[500],
+  },
+  nestedCell: {
+    marginRight: 10,
+  },
+  sortBy: {
+    minWidth: 100,
+    "& > div": {
+      paddingRight: "0 !important",
+    },
+  },
+  tablePagination: {
+    flexWrap: "wrap",
+    justifyContent: "flex-end",
   },
 });
 
