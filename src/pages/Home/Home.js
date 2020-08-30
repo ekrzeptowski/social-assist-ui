@@ -4,28 +4,24 @@ import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
-import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
-import Layout from "../../layout/Layout";
+import RGL, { WidthProvider, Responsive } from "react-grid-layout";
+import "react-grid-layout/css/styles.css";
+import "react-resizable/css/styles.css";
+
 import {
   getFollowersHistory,
   getFollowersStats,
 } from "../../store/actions/followersActions";
 
-import {
-  Typography,
-  Card,
-  CardContent,
-  CardActions,
-  Button,
-  Grid,
-} from "@material-ui/core";
-import { green, red } from "@material-ui/core/colors";
+import { Typography } from "@material-ui/core";
+import FollowersCard from "../../components/Widgets/FollowersCard";
+import FollowingCard from "../../components/Widgets/FollowingCard";
+import FollowersChart from "../../components/Widgets/FollowersChart";
 
 const useStyles = makeStyles({
   card: {
-    minWidth: 275,
+    // minWidth: 275,
   },
   title: {
     fontSize: 14,
@@ -39,6 +35,8 @@ const Home = ({
   followers: { isLoading, totalFollowers, totalFollowing, followersHistory },
 }) => {
   const classes = useStyles();
+
+  const ResponsiveGridLayout = WidthProvider(Responsive);
 
   const followersChange =
     followersHistory[followersHistory.length - 1]?.followers -
@@ -59,68 +57,70 @@ const Home = ({
 
   if (!auth.isAuthenticated) return <Redirect to="/login" />;
 
+  const layout = [
+    {
+      i: "followersCard",
+      x: 0,
+      y: 0,
+      w: 1,
+      h: 1,
+      minW: 1,
+      minH: 1,
+      maxW: 1,
+      maxH: 1,
+    },
+    {
+      i: "followingCard",
+      x: 1,
+      y: 0,
+      w: 1,
+      h: 1,
+      minW: 1,
+      minH: 1,
+      maxW: 1,
+      maxH: 1,
+    },
+    { i: "followersChart", x: 0, y: 1, w: 2, h: 2 },
+  ];
+
   return (
-      <div className="home-page">
-        {!auth.isAuthenticated ? (
-          <div>
-            <p>
-              Welcome guest!{" "}
-              <Link className="bold" to="/login">
-                Log in
-              </Link>{" "}
-              or{" "}
-              <Link className="bold" to="/register">
-                Register
-              </Link>
-            </p>
-          </div>
-        ) : (
-          <>
-            <Typography variant="h5">Welcome @{auth.me.username}</Typography>
-            <Grid container>
-              <Grid item>
-                <Card className={classes.card}>
-                  <CardContent>
-                    <Typography variant="h5">
-                      {totalFollowers}
-                      {followersChange > 0 ? (
-                        <>
-                          <ArrowDropUpIcon style={{ color: green[500] }} />
-                          {followersChange}
-                        </>
-                      ) : (
-                        followersChange < 0 && (
-                          <>
-                            <ArrowDropDownIcon style={{ color: red[500] }} />
-                            {followersChange}
-                          </>
-                        )
-                      )}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      Followers
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-              <Grid item>
-                <Card className={classes.card}>
-                  <CardContent>
-                    <Typography variant="h5">{totalFollowing}</Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      Following
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            </Grid>
-          </>
-        )}
-      </div>
+    <div className="home-page">
+      {!auth.isAuthenticated ? (
+        <div>
+          <p>
+            Welcome guest!{" "}
+            <Link className="bold" to="/login">
+              Log in
+            </Link>{" "}
+            or{" "}
+            <Link className="bold" to="/register">
+              Register
+            </Link>
+          </p>
+        </div>
+      ) : (
+        <>
+          <Typography variant="h5">Welcome @{auth.me.username}</Typography>
+          <ResponsiveGridLayout
+            breakpoints={{ sm: 960, xs: 600, xxs: 0 }}
+            layouts={{
+              sm: layout,
+              xs: layout,
+              xxs: layout,
+            }}
+            cols={{ sm: 6, xs: 4, xxs: 2 }}
+            rowHeight={110}
+          >
+            <FollowersCard
+              key="followersCard"
+              {...{ followersChange, totalFollowers }}
+            />
+            <FollowingCard key="followingCard" {...{ totalFollowing }} />
+            <FollowersChart key="followersChart" {...{ followersHistory }} />
+          </ResponsiveGridLayout>
+        </>
+      )}
+    </div>
   );
 };
 
