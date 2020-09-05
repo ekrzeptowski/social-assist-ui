@@ -9,7 +9,6 @@ import { formatDistance } from "date-fns";
 
 const useStyles = makeStyles((theme) => ({
   popover: {
-    // background: theme.custom.palette.profilePopColor,
     width: theme.spacing(40),
     borderRadius: theme.shape.borderRadius,
   },
@@ -60,14 +59,9 @@ const SyncMenu = ({ anchorEl, onClose, followers, sync, syncData }) => {
           </Typography>
           <Typography>Status: {sync.statusMessage || sync.error}</Typography>
           <div className={classes.actions}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => syncData()}
-            >
+            <Button variant="contained" color="primary" onClick={syncData}>
               Sync
             </Button>
-            <Button variant="contained">Sign-out</Button>
           </div>
         </div>
       </Popover>
