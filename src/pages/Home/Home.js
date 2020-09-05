@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import RGL, { WidthProvider, Responsive } from "react-grid-layout";
+import { WidthProvider, Responsive } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
@@ -13,11 +13,11 @@ import {
   getFollowersHistory,
   getFollowersStats,
 } from "../../store/actions/followersActions";
+import { editUser } from "../../store/actions/userActions";
 
 import { Typography } from "@material-ui/core";
-import FollowersCard from "../../components/Widgets/FollowersCard";
-import FollowingCard from "../../components/Widgets/FollowingCard";
-import FollowersChart from "../../components/Widgets/FollowersChart";
+
+import RenderWidget from "../../components/Widgets/RenderWidget";
 
 const useStyles = makeStyles({
   card: {
@@ -28,19 +28,53 @@ const useStyles = makeStyles({
   },
 });
 
+const defaultWidgets = [
+  {
+    component: "followersCard",
+    dependencies: ["followersChange", "totalFollowers"],
+    layout: { x: 0, y: 0, w: 1, h: 1, minW: 1, minH: 1, maxW: 1, maxH: 1 },
+  },
+  {
+    component: "followingCard",
+    dependencies: ["totalFollowing"],
+    layout: { x: 1, y: 0, w: 1, h: 1, minW: 1, minH: 1, maxW: 1, maxH: 1 },
+  },
+  {
+    component: "followersChart",
+    dependencies: ["followersHistory"],
+    layout: { x: 0, y: 0, w: 2, h: 2 },
+  },
+];
+
 const Home = ({
   auth,
   getFollowersHistory,
   getFollowersStats,
+  editUser,
   followers: { isLoading, totalFollowers, totalFollowing, followersHistory },
 }) => {
   const classes = useStyles();
+
+  const onLayoutChange = (layout, layouts) => {
+    console.log(layouts);
+    // setLayouts(layouts);
+  };
 
   const ResponsiveGridLayout = WidthProvider(Responsive);
 
   const followersChange =
     followersHistory[followersHistory.length - 1]?.followers -
     followersHistory[followersHistory.length - 2]?.followers;
+
+  const stringToStore = {
+    followersChange,
+    followersHistory,
+    totalFollowing,
+    totalFollowers,
+  };
+
+  // const [widgets, setWidgets] = useState(defaultWidgets);
+  // const [layouts, setLayouts] = useState({});
 
   useEffect(() => {
     if (!totalFollowers && !isLoading && auth.isAuthenticated) {
@@ -56,32 +90,6 @@ const Home = ({
   ]);
 
   if (!auth.isAuthenticated) return <Redirect to="/login" />;
-
-  const layout = [
-    {
-      i: "followersCard",
-      x: 0,
-      y: 0,
-      w: 1,
-      h: 1,
-      minW: 1,
-      minH: 1,
-      maxW: 1,
-      maxH: 1,
-    },
-    {
-      i: "followingCard",
-      x: 1,
-      y: 0,
-      w: 1,
-      h: 1,
-      minW: 1,
-      minH: 1,
-      maxW: 1,
-      maxH: 1,
-    },
-    { i: "followersChart", x: 0, y: 1, w: 2, h: 2 },
-  ];
 
   return (
     <div className="home-page">
@@ -103,20 +111,16 @@ const Home = ({
           <Typography variant="h5">Welcome @{auth.me.username}</Typography>
           <ResponsiveGridLayout
             breakpoints={{ sm: 960, xs: 600, xxs: 0 }}
-            layouts={{
-              sm: layout,
-              xs: layout,
-              xxs: layout,
-            }}
+            layouts={{}}
             cols={{ sm: 6, xs: 4, xxs: 2 }}
+            // onLayoutChange={(layout, layouts) =>
+            //   onLayoutChange(layout, layouts)
+            // }
             rowHeight={110}
           >
-            <FollowersCard
-              key="followersCard"
-              {...{ followersChange, totalFollowers }}
-            />
-            <FollowingCard key="followingCard" {...{ totalFollowing }} />
-            <FollowersChart key="followersChart" {...{ followersHistory }} />
+            {defaultWidgets.map((config) =>
+              RenderWidget(config, stringToStore)
+            )}
           </ResponsiveGridLayout>
         </>
       )}
@@ -133,5 +137,6 @@ export default compose(
   connect(mapStateToProps, {
     getFollowersHistory,
     getFollowersStats,
+    editUser,
   })
 )(Home);
