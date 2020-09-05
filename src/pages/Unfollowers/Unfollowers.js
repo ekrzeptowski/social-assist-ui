@@ -62,6 +62,7 @@ const Unfollowers = ({ auth }) => {
       {
         Header: "Date of unfollow",
         accessor: "date",
+        className: classes.unfollowDate,
         Cell: ({
           row: {
             original: { date },
@@ -69,7 +70,7 @@ const Unfollowers = ({ auth }) => {
         }) => (date ? format(parseISO(date), "do MMM") : null),
       },
     ],
-    [classes.avatar, classes.followers, classes.suspended]
+    [classes.avatar, classes.followers, classes.suspended, classes.unfollowDate]
   );
 
   const [data, setData] = React.useState([]);
@@ -79,7 +80,6 @@ const Unfollowers = ({ auth }) => {
 
   const fetchData = React.useCallback(
     ({ pageSize, pageIndex, sortBy }) => {
-      console.log(sortBy);
       // Set the loading state
       setLoading(true);
 

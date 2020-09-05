@@ -10,6 +10,9 @@ const useTableStyles = makeStyles({
   followers: {
     width: 60,
   },
+  unfollowDate: {
+    width: 170,
+  },
   suspended: {
     color: grey[500],
   },
