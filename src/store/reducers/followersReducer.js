@@ -22,6 +22,8 @@ const initialState = {
   totalFollowing: null,
   unfollowers: null,
   fetchedAt: null,
+  notFollowersCount: null,
+  notFollowingCount: null,
 };
 
 export default function (state = initialState, { type, payload }) {
@@ -59,6 +61,8 @@ export default function (state = initialState, { type, payload }) {
         totalFollowers: payload.totalFollowers,
         totalFollowing: payload.totalFollowing,
         fetchedAt: payload.fetchedAt,
+        notFollowingCount: payload.notFollowingCount,
+        notFollowersCount: payload.notFollowersCount,
       };
     case GET_FOLLOWERS_STATS_FAIL:
       return {

@@ -43,6 +43,7 @@ export const getFollowersStats = () => async (dispatch, getState) => {
   try {
     const options = attachTokenToHeaders(getState);
     const response = await axios.get("/api/followers", options);
+    const stats = await axios.get("/api/followers/stats", options);
 
     dispatch({
       type: GET_FOLLOWERS_STATS_SUCCESS,
@@ -50,6 +51,8 @@ export const getFollowersStats = () => async (dispatch, getState) => {
         totalFollowers: response.data.totalFollowers,
         totalFollowing: response.data.totalFollowing,
         fetchedAt: response.data.fetchedAt,
+        notFollowingCount: stats.data.notFollowingCount,
+        notFollowersCount: stats.data.notFollowersCount,
       },
     });
   } catch (err) {
