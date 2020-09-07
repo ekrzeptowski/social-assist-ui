@@ -10,6 +10,8 @@ import { green, red } from "@material-ui/core/colors";
 
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import Skeleton from "@material-ui/lab/Skeleton";
+import { Link } from "react-router-dom";
 
 export default memo(function FollowersCard({
   totalFollowers,
@@ -21,24 +23,25 @@ export default memo(function FollowersCard({
     <Card {...props}>
       <CardContent>
         <Typography variant="h5">
-          {totalFollowers}
-          {followersChange > 0 ? (
-            <>
-              <ArrowDropUpIcon style={{ color: green[500] }} />
-              {followersChange}
-            </>
-          ) : (
-            followersChange < 0 && (
-              <>
-                <ArrowDropDownIcon style={{ color: red[500] }} />
-                {followersChange}
-              </>
-            )
-          )}
+          {totalFollowers ? totalFollowers : <Skeleton width={50} />}
+          {followersChange > 0
+            ? totalFollowers && (
+                <>
+                  <ArrowDropUpIcon style={{ color: green[500] }} />
+                  {followersChange}
+                </>
+              )
+            : followersChange < 0 &&
+              totalFollowers && (
+                <>
+                  <ArrowDropDownIcon style={{ color: red[500] }} />
+                  {followersChange}
+                </>
+              )}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button component={Link} to="/followers" size="small" color="primary">
           Followers
         </Button>
       </CardActions>
