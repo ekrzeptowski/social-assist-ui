@@ -12,6 +12,7 @@ import "react-resizable/css/styles.css";
 import {
   getFollowersHistory,
   getFollowersStats,
+  getUnfollowers,
 } from "../../store/actions/followersActions";
 import { editUser } from "../../store/actions/userActions";
 
@@ -62,15 +63,24 @@ const defaultWidgets = [
     dependencies: ["followersHistory"],
     layout: { x: 0, y: 0, w: 2, h: 2 },
   },
+  {
+    component: "recentUnfollowersCard",
+    key: "recentUnfollowersCard",
+    dependencies: ["unfollowers"],
+    link: { to: "/unfollowers", text: "All unfollowers" },
+    layout: { x: 2, y: 0, w: 2, h: 2, maxH: 3, maxW: 2 },
+  },
 ];
 
 const Home = ({
   auth,
   getFollowersHistory,
   getFollowersStats,
+  getUnfollowers,
   editUser,
   followers: {
     isLoading,
+    unfollowers,
     totalFollowers,
     totalFollowing,
     followersHistory,
@@ -92,6 +102,7 @@ const Home = ({
     followersHistory[followersHistory.length - 2]?.followers;
 
   const stringToStore = {
+    unfollowers,
     followersChange,
     followersHistory,
     totalFollowing,
@@ -113,6 +124,12 @@ const Home = ({
       getFollowersHistory();
     }
   }, [auth.isAuthenticated, getFollowersHistory, followersHistory.length]);
+
+  useEffect(() => {
+    if (!unfollowers && auth.isAuthenticated) {
+      getUnfollowers();
+    }
+  }, [auth.isAuthenticated, getUnfollowers, unfollowers]);
 
   if (!auth.isAuthenticated) return <Redirect to="/login" />;
 
@@ -163,6 +180,7 @@ export default compose(
   connect(mapStateToProps, {
     getFollowersHistory,
     getFollowersStats,
+    getUnfollowers,
     editUser,
   })
 )(Home);

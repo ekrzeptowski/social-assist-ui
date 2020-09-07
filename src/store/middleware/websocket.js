@@ -14,6 +14,7 @@ import {
 import {
   getFollowersStats,
   getFollowersHistory,
+  getUnfollowers,
 } from "../actions/followersActions";
 
 const socketMiddleware = () => {
@@ -36,6 +37,7 @@ const socketMiddleware = () => {
             });
             store.dispatch(getFollowersStats());
             store.dispatch(getFollowersHistory());
+            store.dispatch(getUnfollowers());
             break;
           case "ERROR":
             store.dispatch({

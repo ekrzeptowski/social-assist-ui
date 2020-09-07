@@ -2,11 +2,13 @@ import React from "react";
 import FollowersCard from "./FollowersCard";
 import FollowersChart from "./FollowersChart";
 import DashCard from "./DashCard";
+import RecentUnfollowersCard from "./RecentUnfollowersCard";
 
 const KeysToComponentMap = {
   followersCard: FollowersCard,
   followersChart: FollowersChart,
   dashCard: DashCard,
+  recentUnfollowersCard: RecentUnfollowersCard,
 };
 
 const RenderWidget = (config, stringToStore) => {

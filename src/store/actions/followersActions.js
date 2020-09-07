@@ -68,12 +68,12 @@ export const getUnfollowers = () => async (dispatch, getState) => {
 
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.get("/api/followers/unfollowers", options);
+    const response = await axios.get("/api/followers/unfollowers?page=1&limit=5&sort=-date", options);
 
     dispatch({
       type: GET_UNFOLLOWERS_SUCCESS,
       payload: {
-        unfollowers: response.data,
+        unfollowers: response.data?.docs,
       },
     });
   } catch (err) {
