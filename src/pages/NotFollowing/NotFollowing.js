@@ -9,6 +9,7 @@ import { Grid, Typography, Avatar } from "@material-ui/core";
 import Link from "@material-ui/core/Link";
 import Axios from "axios";
 import useTableStyles from "../../components/Table/styles";
+import { formatFollowers } from "../../helpers/format";
 
 const NotFollowing = ({ auth }) => {
   const classes = useTableStyles();
@@ -40,11 +41,15 @@ const NotFollowing = ({ auth }) => {
         Header: "Followers",
         accessor: "followers_count",
         className: classes.followers,
+        Cell: ({ row: { original } }) =>
+          formatFollowers(original.followers_count),
       },
       {
         Header: "Following",
         accessor: "friends_count",
         className: classes.followers,
+        Cell: ({ row: { original } }) =>
+          formatFollowers(original.friends_count),
       },
     ],
     [classes.avatar, classes.followers]

@@ -10,6 +10,7 @@ import Link from "@material-ui/core/Link";
 import ServerTable from "../../components/Table/ServerTable";
 import Axios from "axios";
 import useTableStyles from "../../components/Table/styles";
+import { formatFollowers } from "../../helpers/format";
 
 const Following = ({ auth }) => {
   const classes = useTableStyles();
@@ -41,9 +42,18 @@ const Following = ({ auth }) => {
         ),
       },
       {
+        Header: "Followers",
+        accessor: "followers_count",
+        className: classes.followers,
+        Cell: ({ row: { original } }) =>
+          formatFollowers(original.followers_count),
+      },
+      {
         Header: "Following",
         accessor: "friends_count",
         className: classes.followers,
+        Cell: ({ row: { original } }) =>
+          formatFollowers(original.friends_count),
       },
     ],
     [classes.avatar, classes.followers]
@@ -83,25 +93,25 @@ const Following = ({ auth }) => {
   );
 
   return (
-      <div className="users">
-        <h1>Following page</h1>
-        <div className="list">
-          {false ? (
-            <Loader />
-          ) : (
-            <>
-              <ServerTable
-                data={data}
-                columns={columns}
-                fetchData={fetchData}
-                loading={loading}
-                pageCount={pageCount}
-                count={count}
-              />
-            </>
-          )}
-        </div>
+    <div className="users">
+      <h1>Following page</h1>
+      <div className="list">
+        {false ? (
+          <Loader />
+        ) : (
+          <>
+            <ServerTable
+              data={data}
+              columns={columns}
+              fetchData={fetchData}
+              loading={loading}
+              pageCount={pageCount}
+              count={count}
+            />
+          </>
+        )}
       </div>
+    </div>
   );
 };
 

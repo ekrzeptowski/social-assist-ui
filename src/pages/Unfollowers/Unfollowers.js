@@ -11,6 +11,7 @@ import ServerTable from "../../components/Table/ServerTable";
 import Axios from "axios";
 import useTableStyles from "../../components/Table/styles";
 import { format, parseISO } from "date-fns";
+import { formatFollowers } from "../../helpers/format";
 
 const Unfollowers = ({ auth }) => {
   const classes = useTableStyles();
@@ -58,6 +59,8 @@ const Unfollowers = ({ auth }) => {
         Header: "Following",
         accessor: "user.friends_count",
         className: classes.followers,
+        Cell: ({ row: { original } }) =>
+          formatFollowers(original.user.friends_count),
       },
       {
         Header: "Date of unfollow",

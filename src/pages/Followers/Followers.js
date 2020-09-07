@@ -11,6 +11,8 @@ import Link from "@material-ui/core/Link";
 import useTableStyles from "../../components/Table/styles";
 import Axios from "axios";
 
+import { formatFollowers } from "../../helpers/format";
+
 const Followers = ({ auth }) => {
   const classes = useTableStyles();
 
@@ -47,12 +49,16 @@ const Followers = ({ auth }) => {
         accessor: "followers_count",
         className: classes.followers,
         width: 60,
+        Cell: ({ row: { original } }) =>
+          formatFollowers(original.followers_count),
       },
       {
         Header: "Following",
         accessor: "friends_count",
         className: classes.followers,
         width: 60,
+        Cell: ({ row: { original } }) =>
+          formatFollowers(original.friends_count),
       },
     ],
     [classes.avatar, classes.followers]
@@ -94,20 +100,20 @@ const Followers = ({ auth }) => {
   return (
     <>
       <h1>Followers page</h1>
-        {false ? (
-          <Loader />
-        ) : (
-          <>
-            <ServerTable
-              data={data}
-              columns={columns}
-              fetchData={fetchData}
-              loading={loading}
-              pageCount={pageCount}
-              count={count}
-            />
-          </>
-        )}
+      {false ? (
+        <Loader />
+      ) : (
+        <>
+          <ServerTable
+            data={data}
+            columns={columns}
+            fetchData={fetchData}
+            loading={loading}
+            pageCount={pageCount}
+            count={count}
+          />
+        </>
+      )}
     </>
   );
 };
