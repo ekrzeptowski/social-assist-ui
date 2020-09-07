@@ -52,25 +52,25 @@ export default memo(function RecentUnfollowersCard({
             ? unfollowers.map((user) => (
                 <ListItem button divider key={user._id}>
                   <ListItemAvatar>
-                    <Avatar src={user.user.avatar} />
+                    <Avatar src={user?.user?.avatar} />
                   </ListItemAvatar>
                   <ListItemText
                     classes={{
                       primary: clsx(
                         classes.title,
-                        user.user.suspended && classes.suspended
+                        user?.user?.suspended && classes.suspended
                       ),
                       // secondary: classes.username
                     }}
                     primary={
                       <>
-                        {user.user.name}
-                        {user.user.protected && (
+                        {user?.user?.name}
+                        {user?.user?.protected && (
                           <LockIcon style={{ fontSize: 16 }} />
                         )}
                       </>
                     }
-                    secondary={`@${user.user.screen_name}`}
+                    secondary={`@${user?.user?.screen_name}`}
                     secondaryTypographyProps={{ color: "primary" }}
                   />
                 </ListItem>

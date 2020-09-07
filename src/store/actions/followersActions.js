@@ -16,6 +16,8 @@ import {
 } from "../types";
 import { attachTokenToHeaders } from "./authActions";
 
+import isEmpty from "../../helpers/isEmpty";
+
 export const getFollowers = () => async (dispatch, getState) => {
   dispatch({ type: GET_FOLLOWERS_LOADING });
 
@@ -68,12 +70,15 @@ export const getUnfollowers = () => async (dispatch, getState) => {
 
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.get("/api/followers/unfollowers?page=1&limit=5&sort=-date", options);
+    const response = await axios.get(
+      "/api/followers/unfollowers?page=1&limit=5&sort=-date",
+      options
+    );
 
     dispatch({
       type: GET_UNFOLLOWERS_SUCCESS,
       payload: {
-        unfollowers: response.data?.docs,
+        unfollowers: isEmpty(response.data.docs[0]) ? null : response.data?.docs,
       },
     });
   } catch (err) {
