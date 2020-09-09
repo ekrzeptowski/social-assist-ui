@@ -62,7 +62,7 @@ const MoreMenu = ({ isExpanded, setIsExpanded }) => {
             icon={<AiOutlineEye />}
           />
           <ListItemLink
-            to="/notfollowers"
+            to="/followingback"
             primary="Following back"
             icon={<AiOutlineUserSwitch />}
           />

@@ -20,6 +20,7 @@ import Following from "./pages/Following/Following";
 import NotFollowing from "./pages/NotFollowing/NotFollowing";
 import NotFollowers from "./pages/NotFollowers/NotFollowers";
 import Layout from "./layout/Layout";
+import FollowingBack from "./pages/FollowingBack/FollowingBack";
 
 const App = ({ logInUserWithOauth, auth, loadMe }) => {
   const dispatch = useDispatch();
@@ -61,6 +62,7 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
                 <Route path="/login" component={Login} />
                 <Route path="/followers" component={Followers} />
                 <Route path="/following" component={Following} />
+                <Route path="/followingback" component={FollowingBack} />
                 <Route path="/notfollowers" component={NotFollowers} />
                 <Route path="/notfollowing" component={NotFollowing} />
                 <Route path="/unfollowers" component={Unfollowers} />

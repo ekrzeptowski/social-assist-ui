@@ -162,7 +162,7 @@ const Sidebar = ({ nav, toggleSidebar }) => {
               pathname={pathname}
             />
             <ListItemLink
-              to="/notfollowers"
+              to="/followingback"
               primary="Following back"
               icon={<AiOutlineUserSwitch />}
               pathname={pathname}
