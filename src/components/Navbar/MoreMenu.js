@@ -1,9 +1,15 @@
 import React from "react";
 import { makeStyles, List, useTheme, IconButton } from "@material-ui/core";
 import { ListItemLink } from "../Sidebar/Sidebar";
-import SettingsIcon from "@material-ui/icons/Settings";
-import DeleteIcon from "@material-ui/icons/Delete";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import {
+  AiOutlineUserDelete,
+  AiOutlineEye,
+  AiOutlineUserSwitch,
+  AiOutlineEyeInvisible,
+  AiOutlineSetting,
+} from "react-icons/ai";
+import { IconContext } from "react-icons/lib";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,31 +46,38 @@ const MoreMenu = ({ isExpanded, setIsExpanded }) => {
         isExpanded ? classes.expandedRoot : undefined
       }`}
     >
-      <IconButton>
-        <KeyboardArrowDownIcon />
-      </IconButton>
-      <List className={classes.listContainer}>
-        <ListItemLink
-          to="/notfollowing"
-          primary="I don't follow back"
-          icon={<DeleteIcon />}
-        />
-        <ListItemLink
-          to="/following"
-          primary="Following"
-          icon={<SettingsIcon />}
-        />
-        <ListItemLink
-          to="/notfollowers"
-          primary="Not following back"
-          icon={<SettingsIcon />}
-        />
-        <ListItemLink
-          to="/settings"
-          primary="Settings"
-          icon={<SettingsIcon />}
-        />
-      </List>
+      <IconContext.Provider value={{ size: 24 }}>
+        <IconButton>
+          <KeyboardArrowDownIcon />
+        </IconButton>
+        <List className={classes.listContainer}>
+          <ListItemLink
+            to="/notfollowing"
+            primary="I don't follow back"
+            icon={<AiOutlineUserDelete />}
+          />
+          <ListItemLink
+            to="/following"
+            primary="Following"
+            icon={<AiOutlineEye />}
+          />
+          <ListItemLink
+            to="/notfollowers"
+            primary="Following back"
+            icon={<AiOutlineUserSwitch />}
+          />
+          <ListItemLink
+            to="/notfollowers"
+            primary="Not following back"
+            icon={<AiOutlineEyeInvisible />}
+          />
+          <ListItemLink
+            to="/settings"
+            primary="Settings"
+            icon={<AiOutlineSetting />}
+          />
+        </List>
+      </IconContext.Provider>
     </div>
   );
 };

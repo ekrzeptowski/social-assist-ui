@@ -6,10 +6,15 @@ import {
   makeStyles,
 } from "@material-ui/core";
 
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import MenuIcon from "@material-ui/icons/Menu";
 import { useLocation, Link } from "react-router-dom";
 import MoreMenu from "./MoreMenu";
+import {
+  AiOutlineDashboard,
+  AiOutlineUser,
+  AiOutlineUsergroupDelete,
+  AiOutlineMore,
+} from "react-icons/ai";
+import { IconContext } from "react-icons/lib";
 
 const useStyles = makeStyles(() => ({
   backdrop: {
@@ -25,7 +30,7 @@ const MobileNav = ({ className }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <>
+    <IconContext.Provider value={{ size: 24 }}>
       <Backdrop
         className={classes.backdrop}
         open={isExpanded}
@@ -43,32 +48,30 @@ const MobileNav = ({ className }) => {
           component={Link}
           to="/"
           value="/"
-          icon={<DashboardIcon />}
+          icon={<AiOutlineDashboard />}
         />
         <BottomNavigationAction
           label="Followers"
           to="/followers"
           component={Link}
           value="/followers"
-          icon={<DashboardIcon />}
+          icon={<AiOutlineUser />}
         />
         <BottomNavigationAction
           label="Unfollowers"
           value="/unfollowers"
           component={Link}
           to="/unfollowers"
-          icon={<DashboardIcon />}
+          icon={<AiOutlineUsergroupDelete />}
         />
         <BottomNavigationAction
           label="More"
           value="/more"
           onClick={() => setIsExpanded((cur) => !cur)}
-          // component={Link}
-          // to="/more"
-          icon={<MenuIcon />}
+          icon={<AiOutlineMore />}
         />
       </BottomNavigation>
-    </>
+    </IconContext.Provider>
   );
 };
 

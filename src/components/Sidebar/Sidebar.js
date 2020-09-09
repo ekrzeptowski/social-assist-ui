@@ -1,7 +1,7 @@
 import React from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -14,12 +14,19 @@ import {
   Divider,
   useMediaQuery,
 } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import SettingsIcon from "@material-ui/icons/Settings";
+import {
+  AiOutlineUsergroupDelete,
+  AiOutlineUser,
+  AiOutlineEyeInvisible,
+  AiOutlineEye,
+  AiOutlineUserDelete,
+  AiOutlineUserSwitch,
+  AiOutlineSetting,
+  AiOutlineDashboard,
+} from "react-icons/ai";
 
 import { toggleSidebar } from "../../store/actions/navActions";
+import { IconContext } from "react-icons/lib";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -64,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const ListItemLink = (props) => {
-  const { icon, primary, to } = props;
+  const { icon, primary, to, pathname } = props;
 
   const renderLink = React.useMemo(
     () =>
@@ -76,7 +83,7 @@ export const ListItemLink = (props) => {
 
   return (
     <li>
-      <ListItem button component={renderLink}>
+      <ListItem button component={renderLink} selected={pathname === to}>
         {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
         <ListItemText primary={primary} />
       </ListItem>
@@ -88,6 +95,8 @@ const Sidebar = ({ nav, toggleSidebar }) => {
   const classes = useStyles();
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("xs"));
+
+  let { pathname } = useLocation();
 
   return (
     <Drawer
@@ -116,46 +125,65 @@ const Sidebar = ({ nav, toggleSidebar }) => {
     >
       <div className={classes.toolbar}></div>
       <div onClick={mobile ? toggleSidebar : undefined}>
-        <List>
-          <ListItemLink to="/" primary="Overview" icon={<DashboardIcon />} />
-          <ListItemLink
-            to="/followers"
-            primary="Followers"
-            icon={<AddCircleIcon />}
-          />
+        <IconContext.Provider value={{ size: 24 }}>
+          <List>
+            <ListItemLink
+              to="/"
+              primary="Overview"
+              icon={<AiOutlineDashboard />}
+              pathname={pathname}
+            />
+            <ListItemLink
+              to="/followers"
+              primary="Followers"
+              icon={<AiOutlineUser />}
+              pathname={pathname}
+            />
 
-          <ListItemLink
-            to="/unfollowers"
-            primary="Unfollowers"
-            icon={<DeleteIcon />}
-          />
-          <ListItemLink
-            to="/notfollowing"
-            primary="I don't follow back"
-            icon={<DeleteIcon />}
-          />
-        </List>
-        <Divider />
-        <List>
-          <ListItemLink
-            to="/following"
-            primary="Following"
-            icon={<SettingsIcon />}
-          />
-          <ListItemLink
-            to="/notfollowers"
-            primary="Not following back"
-            icon={<SettingsIcon />}
-          />
-        </List>
-        <Divider />
-        <List>
-          <ListItemLink
-            to="/settings"
-            primary="Settings"
-            icon={<SettingsIcon />}
-          />
-        </List>
+            <ListItemLink
+              to="/unfollowers"
+              primary="Unfollowers"
+              icon={<AiOutlineUsergroupDelete />}
+              pathname={pathname}
+            />
+            <ListItemLink
+              to="/notfollowing"
+              primary="I don't follow back"
+              icon={<AiOutlineUserDelete />}
+              pathname={pathname}
+            />
+          </List>
+          <Divider />
+          <List>
+            <ListItemLink
+              to="/following"
+              primary="Following"
+              icon={<AiOutlineEye />}
+              pathname={pathname}
+            />
+            <ListItemLink
+              to="/notfollowers"
+              primary="Following back"
+              icon={<AiOutlineUserSwitch />}
+              pathname={pathname}
+            />
+            <ListItemLink
+              to="/notfollowers"
+              primary="Not following back"
+              icon={<AiOutlineEyeInvisible />}
+              pathname={pathname}
+            />
+          </List>
+          <Divider />
+          <List>
+            <ListItemLink
+              to="/settings"
+              primary="Settings"
+              icon={<AiOutlineSetting />}
+              pathname={pathname}
+            />
+          </List>
+        </IconContext.Provider>
       </div>
     </Drawer>
   );
