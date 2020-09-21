@@ -3,7 +3,7 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 
 import { WidthProvider, Responsive } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
@@ -89,6 +89,7 @@ const Home = ({
   },
 }) => {
   const classes = useStyles();
+  const theme = useTheme();
 
   const onLayoutChange = (layout, layouts) => {
     console.log(layouts);

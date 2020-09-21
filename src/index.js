@@ -8,7 +8,7 @@ import thunk from "redux-thunk";
 import App from "./App";
 import rootReducer from "./store/reducers";
 import socketMiddleware from "./store/middleware/websocket";
-import { CssBaseline } from "@material-ui/core";
+import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
 
 const initialState = {};
 
@@ -23,14 +23,24 @@ const store = createStore(
   )
 );
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#1DA1F2",
+    },
+  },
+});
+
 ReactDOM.render(
   <Provider store={store}>
-    <CssBaseline/>
-    <Router>
-      <Switch>
-        <Route path="/" component={App} />
-      </Switch>
-    </Router>
+    <CssBaseline />
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Switch>
+          <Route path="/" component={App} />
+        </Switch>
+      </Router>
+    </ThemeProvider>
   </Provider>,
   document.getElementById("root")
 );

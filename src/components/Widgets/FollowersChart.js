@@ -1,23 +1,29 @@
 import React, { memo } from "react";
+import { Paper, useTheme } from "@material-ui/core";
 import {
-  Paper,
-} from "@material-ui/core";
-import { ResponsiveContainer, AreaChart, XAxis, YAxis, Tooltip, Area } from "recharts";
+  ResponsiveContainer,
+  AreaChart,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Area,
+} from "recharts";
 import { format } from "date-fns";
+import useCardStyles from "./styles";
+import { DragHandle } from "./DragHandle";
 
 export default memo(function FollowersChart({
   followersHistory,
-  // followersChange,
   children,
   ...props
 }) {
+  const classes = useCardStyles();
+  const theme = useTheme();
+
   return (
-    <Paper {...props}>
+    <Paper {...props} className={classes.cardContent}>
       <ResponsiveContainer>
-        <AreaChart
-          // width={400} height={300}
-          data={followersHistory}
-        >
+        <AreaChart data={followersHistory}>
           <XAxis
             dataKey="timestamp"
             scale="time"
@@ -34,11 +40,12 @@ export default memo(function FollowersChart({
           <Area
             type="monotone"
             dataKey={"followers"}
-            stroke="#8884d8"
-            fill="#8884d8"
+            stroke={theme.palette.primary.main}
+            // fill="#8884d8"
           />
         </AreaChart>
       </ResponsiveContainer>
+      {/* <DragHandle/> */}
       {children}
     </Paper>
   );

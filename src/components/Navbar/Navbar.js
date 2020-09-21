@@ -1,7 +1,7 @@
 import React from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 import { logOutUser } from "../../store/actions/authActions";
 import { toggleSidebar } from "../../store/actions/navActions";
@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   },
   appBar: {
+    background: "#fff",
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
@@ -92,6 +93,9 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     marginRight: 8,
   },
+  userName: {
+    color: theme.palette.primary.main,
+  },
   "@keyframes rotateIcon": {
     from: {
       transform: "rotate(0deg)",
@@ -141,9 +145,11 @@ const Navbar = ({ auth, nav, sync, toggleSidebar, logOutUser, history }) => {
     >
       <Toolbar>
         <Hidden xsDown>
-          <IconButton color="inherit" onClick={toggleSidebar}>
-            <MenuIcon />
-          </IconButton>
+          {auth.isAuthenticated && (
+            <IconButton color="inherit" onClick={toggleSidebar}>
+              <MenuIcon />
+            </IconButton>
+          )}
           <Typography variant="h6" noWrap className={classes.title}>
             Social Assisstant
           </Typography>
@@ -158,7 +164,7 @@ const Navbar = ({ auth, nav, sync, toggleSidebar, logOutUser, history }) => {
                 className={sync.isLoading ? classes.rotateAnimation : ""}
               />
             </IconButton>
-            <Button color="inherit" onClick={handleClick}>
+            <Button className={classes.userName} onClick={handleClick}>
               <Avatar
                 className={classes.avatar}
                 alt={auth.me.name}
@@ -176,7 +182,18 @@ const Navbar = ({ auth, nav, sync, toggleSidebar, logOutUser, history }) => {
             {/* <IconButton color="inherit"><AccountCircle/></IconButton> */}
           </>
         ) : (
-          <Button color="inherit">Login</Button>
+          <>
+            <Button color="inherit">Features</Button>
+            <Button color="inherit">Pricing</Button>
+            <Button
+              component={Link}
+              to="/login"
+              variant="contained"
+              color="inherit"
+            >
+              Login
+            </Button>
+          </>
         )}
       </Toolbar>
     </AppBar>
