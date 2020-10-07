@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   },
   appBar: {
-    background: "#fff",
+    // background: "#fff",
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
@@ -92,9 +92,6 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     marginRight: 8,
-  },
-  userName: {
-    color: theme.palette.primary.main,
   },
   "@keyframes rotateIcon": {
     from: {
@@ -164,7 +161,7 @@ const Navbar = ({ auth, nav, sync, toggleSidebar, logOutUser, history }) => {
                 className={sync.isLoading ? classes.rotateAnimation : ""}
               />
             </IconButton>
-            <Button className={classes.userName} onClick={handleClick}>
+            <Button color="inherit" onClick={handleClick}>
               <Avatar
                 className={classes.avatar}
                 alt={auth.me.name}
