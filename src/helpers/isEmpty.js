@@ -1,3 +1,3 @@
 export default function isEmpty(obj) {
-  return Object.keys(obj).length === 0;
+  return typeof obj == Object && Object.keys(obj).length === 0;
 }
