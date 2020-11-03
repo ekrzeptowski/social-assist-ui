@@ -6,6 +6,7 @@ import { Redirect } from "react-router-dom";
 import { WidthProvider, Responsive } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
+import "./styles.css";
 
 import {
   getFollowersHistory,
@@ -60,6 +61,105 @@ const defaultWidgets = [
     layout: { x: 2, y: 0, w: 2, h: 2, maxH: 3, maxW: 2 },
   },
 ];
+
+const layout = {
+  xxs: [
+    {
+      i: "followersCard",
+      x: 0,
+      y: 0,
+      w: 1,
+      h: 1,
+      minW: 1,
+      minH: 1,
+      maxW: 1,
+      maxH: 1,
+    },
+    {
+      i: "followingCard",
+      x: 1,
+      y: 0,
+      w: 1,
+      h: 1,
+      minW: 1,
+      minH: 1,
+      maxW: 1,
+      maxH: 1,
+    },
+    {
+      i: "notFollowersCount",
+      x: 0,
+      y: 1,
+      w: 1,
+      h: 1,
+      minW: 1,
+      minH: 1,
+      maxW: 1,
+      maxH: 1,
+    },
+    {
+      i: "notFollowingCount",
+      x: 1,
+      y: 1,
+      w: 1,
+      h: 1,
+      minW: 1,
+      minH: 1,
+      maxW: 1,
+      maxH: 1,
+    },
+    { i: "followersChart", x: 0, y: 2, w: 2, h: 2 },
+    { i: "recentUnfollowersCard", x: 0, y: 4, w: 2, h: 2, maxW: 2, maxH: 3 },
+  ],
+  xs: [
+    {
+      i: "followersCard",
+      x: 0,
+      y: 0,
+      w: 1,
+      h: 1,
+      minW: 1,
+      minH: 1,
+      maxW: 1,
+      maxH: 1,
+    },
+    {
+      i: "followingCard",
+      x: 1,
+      y: 0,
+      w: 1,
+      h: 1,
+      minW: 1,
+      minH: 1,
+      maxW: 1,
+      maxH: 1,
+    },
+    {
+      i: "notFollowersCount",
+      x: 2,
+      y: 0,
+      w: 1,
+      h: 1,
+      minW: 1,
+      minH: 1,
+      maxW: 1,
+      maxH: 1,
+    },
+    {
+      i: "notFollowingCount",
+      x: 3,
+      y: 0,
+      w: 1,
+      h: 1,
+      minW: 1,
+      minH: 1,
+      maxW: 1,
+      maxH: 1,
+    },
+    { i: "followersChart", x: 0, y: 1, w: 2, h: 2 },
+    { i: "recentUnfollowersCard", x: 2, y: 1, w: 2, h: 2, maxW: 2, maxH: 3 },
+  ],
+};
 
 const Home = ({
   auth,
@@ -126,7 +226,10 @@ const Home = ({
           <Typography variant="h5">Welcome @{auth.me.username}</Typography>
           <ResponsiveGridLayout
             breakpoints={{ sm: 960, xs: 600, xxs: 0 }}
-            layouts={{}}
+            layouts={{ xxs: layout.xxs, xs: layout.xs }}
+            // isDraggable={!mobile ? true : false}
+            // isResizable={!mobile ? true : false}
+            draggableHandle=".drag-handle"
             cols={{ sm: 6, xs: 4, xxs: 2 }}
             measureBeforeMount={true}
             // onLayoutChange={(layout, layouts) =>

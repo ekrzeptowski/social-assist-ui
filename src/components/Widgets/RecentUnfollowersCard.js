@@ -16,6 +16,7 @@ import clsx from "clsx";
 import { Link } from "react-router-dom";
 import LockIcon from "@material-ui/icons/Lock";
 import Skeleton from "@material-ui/lab/Skeleton";
+// import { DragHandle } from "./DragHandle";
 
 const useStyles = makeStyles({
   card: {
@@ -26,6 +27,7 @@ const useStyles = makeStyles({
   cardContent: {
     overflowY: "scroll",
     padding: 0,
+    position: "relative",
   },
   title: {
     display: "flex",
@@ -87,6 +89,7 @@ export default memo(function RecentUnfollowersCard({
                 </ListItem>
               ))}
         </List>
+        {/* <DragHandle/> */}
       </CardContent>
       <CardActions>
         <Button component={Link} to={link.to} size="small" color="primary">

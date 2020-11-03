@@ -13,6 +13,8 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { Link } from "react-router-dom";
 import { formatFollowers } from "../../helpers/format";
+// import { DragHandle } from "./DragHandle";
+import useCardStyles from "./styles";
 
 export default memo(function FollowersCard({
   totalFollowers,
@@ -20,9 +22,10 @@ export default memo(function FollowersCard({
   children,
   ...props
 }) {
+  const classes = useCardStyles();
   return (
     <Card {...props}>
-      <CardContent>
+      <CardContent className={classes.cardContent}>
         <Typography variant="h5">
           {totalFollowers ? (
             formatFollowers(totalFollowers)
@@ -44,6 +47,7 @@ export default memo(function FollowersCard({
                 </>
               )}
         </Typography>
+        {/* <DragHandle /> */}
       </CardContent>
       <CardActions>
         <Button component={Link} to="/followers" size="small" color="primary">

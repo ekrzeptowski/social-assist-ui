@@ -10,7 +10,7 @@ import {
 } from "recharts";
 import { format } from "date-fns";
 import useCardStyles from "./styles";
-import { DragHandle } from "./DragHandle";
+// import { DragHandle } from "./DragHandle";
 
 export default memo(function FollowersChart({
   followersHistory,
