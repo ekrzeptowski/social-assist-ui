@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
-
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { Redirect } from "react-router-dom";
 
 import { WidthProvider, Responsive } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
@@ -19,15 +17,6 @@ import { editUser } from "../../store/actions/userActions";
 import { Typography } from "@material-ui/core";
 
 import RenderWidget from "../../components/Widgets/RenderWidget";
-
-const useStyles = makeStyles({
-  card: {
-    // minWidth: 275,
-  },
-  title: {
-    fontSize: 14,
-  },
-});
 
 const defaultWidgets = [
   {
@@ -77,7 +66,6 @@ const Home = ({
   getFollowersHistory,
   getFollowersStats,
   getUnfollowers,
-  editUser,
   followers: {
     isLoading,
     unfollowers,
@@ -88,13 +76,10 @@ const Home = ({
     notFollowersCount,
   },
 }) => {
-  const classes = useStyles();
-  const theme = useTheme();
-
-  const onLayoutChange = (layout, layouts) => {
-    console.log(layouts);
-    // setLayouts(layouts);
-  };
+  // const onLayoutChange = (layout, layouts) => {
+  //   console.log(layouts);
+  //   // setLayouts(layouts);
+  // };
 
   const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -136,20 +121,7 @@ const Home = ({
 
   return (
     <div className="home-page">
-      {!auth.isAuthenticated ? (
-        <div>
-          <p>
-            Welcome guest!{" "}
-            <Link className="bold" to="/login">
-              Log in
-            </Link>{" "}
-            or{" "}
-            <Link className="bold" to="/register">
-              Register
-            </Link>
-          </p>
-        </div>
-      ) : (
+      {auth.isAuthenticated && (
         <>
           <Typography variant="h5">Welcome @{auth.me.username}</Typography>
           <ResponsiveGridLayout

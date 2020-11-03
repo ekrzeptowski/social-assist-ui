@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-import { attachTokenToHeaders } from './authActions';
+import { attachTokenToHeaders } from "./authActions";
 import {
   GET_PROFILE_LOADING,
   GET_PROFILE_SUCCESS,
@@ -11,11 +11,14 @@ import {
   DELETE_USER_LOADING,
   DELETE_USER_SUCCESS,
   DELETE_USER_FAIL,
-} from '../types';
+} from "../types";
 
-import { logOutUser, loadMe } from './authActions';
+import { logOutUser, loadMe } from "./authActions";
 
-export const editUser = (id, formData, history) => async (dispatch, getState) => {
+export const editUser = (id, formData, history) => async (
+  dispatch,
+  getState
+) => {
   dispatch({
     type: EDIT_USER_LOADING,
   });
@@ -29,7 +32,6 @@ export const editUser = (id, formData, history) => async (dispatch, getState) =>
     });
     // edited him self, reload me
     if (getState().auth.me?.id === response.data.user.id) dispatch(loadMe());
-    history.push(`/${response.data.user.username}`);
   } catch (err) {
     dispatch({
       type: EDIT_USER_FAIL,
@@ -52,7 +54,7 @@ export const getProfile = (username, history) => async (dispatch, getState) => {
     });
   } catch (err) {
     if (err?.response.status === 404) {
-      history.push('/notfound');
+      history.push("/notfound");
     }
     dispatch({
       type: GET_PROFILE_FAIL,
@@ -74,7 +76,7 @@ export const deleteUser = (id, history) => async (dispatch, getState) => {
     if (getState().auth.me.id === response.data.user.id) {
       dispatch(logOutUser(id, history));
     }
-    history.push('/users');
+    history.push("/users");
     dispatch({
       type: DELETE_USER_SUCCESS,
       payload: { message: response.data.user },
