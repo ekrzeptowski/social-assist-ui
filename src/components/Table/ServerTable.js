@@ -175,11 +175,48 @@ const ServerTable = ({
             [...Array(pageSize)].map((item, i) => (
               <TableRow key={i}>
                 {headerGroups.map((headerGroup) =>
-                  headerGroup.headers.map((header, i) => (
-                    <TableCell {...header.getHeaderProps()}>
-                      <Skeleton variant="text"></Skeleton>
-                    </TableCell>
-                  ))
+                  headerGroup.headers.map(
+                    (header, i) =>
+                      (i <= 1 || !mobile) && (
+                        <TableCell
+                          {...header.getHeaderProps({
+                            className: header.className,
+                            style: header.style,
+                          })}
+                        >
+                          {header.id === "user.avatar" ||
+                          header.id === "avatar" ? (
+                            <Skeleton variant="circle" width={40} height={40} />
+                          ) : header.id === "user.name" ||
+                            header.id === "name" ? (
+                            <div>
+                              <Skeleton width={150} />
+                              <Skeleton width={100} />
+                              {mobile && (
+                                <Box display="flex" flexWrap="wrap">
+                                  {headerGroup.headers.map(
+                                    (header, i) =>
+                                      i > 1 && (
+                                        <div
+                                          key={i}
+                                          className={classes.nestedCell}
+                                        >
+                                          {header.Header}:{" "}
+                                          <Box fontWeight={700}>
+                                            <Skeleton />
+                                          </Box>
+                                        </div>
+                                      )
+                                  )}
+                                </Box>
+                              )}
+                            </div>
+                          ) : (
+                            !mobile && <Skeleton />
+                          )}
+                        </TableCell>
+                      )
+                  )
                 )}
               </TableRow>
             ))}
@@ -202,10 +239,41 @@ const ServerTable = ({
                           >
                             {cell.render(
                               loading ? (
-                                <Skeleton
-                                  variant="text"
-                                  width={cell.width}
-                                ></Skeleton>
+                                <>
+                                  {cell.column.id === "user.avatar" ||
+                                  cell.column.id === "avatar" ? (
+                                    <Skeleton
+                                      variant="circle"
+                                      width={40}
+                                      height={40}
+                                    />
+                                  ) : (
+                                    cell.column.id === "user.name" ||
+                                    (cell.column.id === "name" && (
+                                      <div>
+                                        <Skeleton width={150} />
+                                        <Skeleton width={100} />
+                                        <Box display="flex" flexWrap="wrap">
+                                          {row.cells.map((cell, index) => {
+                                            return (
+                                              index > 1 && (
+                                                <div
+                                                  key={index}
+                                                  className={classes.nestedCell}
+                                                >
+                                                  {cell.column.Header}:{" "}
+                                                  <Box fontWeight={700}>
+                                                    <Skeleton />
+                                                  </Box>
+                                                </div>
+                                              )
+                                            );
+                                          })}
+                                        </Box>
+                                      </div>
+                                    ))
+                                  )}
+                                </>
                               ) : mobile && index === 1 ? (
                                 (cell) => (
                                   <>
@@ -250,10 +318,24 @@ const ServerTable = ({
                         >
                           {cell.render(
                             loading ? (
-                              <Skeleton
-                                variant="text"
-                                width={cell.width}
-                              ></Skeleton>
+                              <>
+                                {cell.column.id === "user.avatar" ||
+                                cell.column.id === "avatar" ? (
+                                  <Skeleton
+                                    variant="circle"
+                                    width={40}
+                                    height={40}
+                                  />
+                                ) : cell.column.id === "user.name" ||
+                                  cell.column.id === "name" ? (
+                                  <div>
+                                    <Skeleton width={150} />
+                                    <Skeleton width={100} />
+                                  </div>
+                                ) : (
+                                  <Skeleton />
+                                )}
+                              </>
                             ) : (
                               "Cell"
                             )
