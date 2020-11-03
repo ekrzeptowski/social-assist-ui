@@ -2,7 +2,6 @@ import React, { memo } from "react";
 import {
   Card,
   CardContent,
-  Typography,
   Button,
   CardActions,
   makeStyles,
@@ -50,7 +49,7 @@ export default memo(function RecentUnfollowersCard({
     <Card {...props} className={classes.card}>
       <CardContent className={classes.cardContent}>
         <List dense disablePadding>
-          {unfollowers?.length > 0
+          {unfollowers?.length > 0 && unfollowers[0].user
             ? unfollowers.map((user) => (
                 <ListItem button divider key={user._id}>
                   <ListItemAvatar>

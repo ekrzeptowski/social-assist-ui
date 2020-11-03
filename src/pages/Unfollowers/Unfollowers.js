@@ -50,7 +50,7 @@ const Unfollowers = ({ auth }) => {
                 </Typography>
               </>
             ) : (
-              <Typography>User data not found</Typography>
+              <Typography>You don't have any unfollower</Typography>
             )}
           </Grid>
         ),
@@ -60,7 +60,7 @@ const Unfollowers = ({ auth }) => {
         accessor: "user.friends_count",
         className: classes.followers,
         Cell: ({ row: { original } }) =>
-          formatFollowers(original.user.friends_count),
+          formatFollowers(original?.user?.friends_count),
       },
       {
         Header: "Date of unfollow",

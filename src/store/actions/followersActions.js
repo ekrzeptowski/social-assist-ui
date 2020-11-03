@@ -74,14 +74,17 @@ export const getUnfollowers = () => async (dispatch, getState) => {
       "/api/followers/unfollowers?page=1&limit=5&sort=-date",
       options
     );
-
-    dispatch({
-      type: GET_UNFOLLOWERS_SUCCESS,
-      payload: {
-        unfollowers: isEmpty(response.data.docs[0]) ? null : response.data?.docs,
-      },
-    });
+    response.data.docs &&
+      dispatch({
+        type: GET_UNFOLLOWERS_SUCCESS,
+        payload: {
+          unfollowers: isEmpty(response.data?.docs[0])
+            ? null
+            : response.data?.docs,
+        },
+      });
   } catch (err) {
+    console.log(err);
     dispatch({
       type: GET_UNFOLLOWERS_FAIL,
       payload: { error: err.response.data.message },
