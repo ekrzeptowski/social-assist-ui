@@ -4,13 +4,12 @@ import { connect } from "react-redux";
 
 import Loader from "../../components/Loader/Loader";
 import requireAuth from "../../hoc/requireAuth";
-import { Grid, Typography, Avatar } from "@material-ui/core";
-import LockIcon from "@material-ui/icons/Lock";
-import Link from "@material-ui/core/Link";
+
 import ServerTable from "../../components/Table/ServerTable";
 import Axios from "axios";
 import useTableStyles from "../../components/Table/styles";
 import { formatFollowers } from "../../helpers/format";
+import { Avatar, Name } from "../../components/Table/Fields";
 
 const FollowingBack = ({ auth }) => {
   const classes = useTableStyles();
@@ -20,26 +19,12 @@ const FollowingBack = ({ auth }) => {
       {
         accessor: "avatar",
         className: classes.avatar,
-        Cell: ({ row: { original } }) => (
-          <Avatar alt={original.name} src={original.avatar} />
-        ),
+        Cell: ({ row: { original } }) => <Avatar user={original} />,
       },
       {
         Header: "Name",
         accessor: "name",
-        Cell: ({ row: { original } }) => (
-          <Grid item>
-            <Typography>
-              {original.name}
-              {original.protected && <LockIcon style={{ fontSize: 16 }} />}
-            </Typography>
-            <Typography variant="caption" color="textSecondary">
-              <Link href={`https://twitter.com/${original.screen_name}`}>
-                @{original.screen_name}
-              </Link>
-            </Typography>
-          </Grid>
-        ),
+        Cell: ({ row: { original } }) => <Name user={original} />,
       },
       {
         Header: "Followers",
