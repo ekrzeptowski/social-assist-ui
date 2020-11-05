@@ -6,10 +6,12 @@ import {
   Button,
   Box,
   Grid,
+  Slider,
   makeStyles,
   useTheme,
   useMediaQuery,
-  Container,
+  Select,
+  MenuItem,
 } from "@material-ui/core";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -19,10 +21,20 @@ import { editUser } from "../../store/actions/userActions";
 import Pricing, { usePricingStyles } from "../../components/Pricing/Pricing";
 import { tiers } from "../../tiers";
 
+const chartScale = [
+  { value: 0, label: "Infinite" },
+  { value: 7, label: "7 days" },
+  { value: 14, label: "2 weeks" },
+  { value: 30, label: "1 month" },
+  { value: 60, label: "2 months" },
+];
+
 const useStyles = makeStyles((theme) => ({
-  formContainer: {
-    display: "flex",
-    flexWrap: "wrap",
+  slider: {
+    maxWidth: 400,
+  },
+  hidden: {
+    display: "none",
   },
 }));
 
@@ -46,11 +58,8 @@ const Settings = ({ auth, editUser }) => {
       <Typography variant="h5">Settings</Typography>
       {auth.me && (
         <Box>
-          <form
-            className={classes.formContainer}
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <Container>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Box>
               <Controller
                 name="debug"
                 control={control}
@@ -71,14 +80,53 @@ const Settings = ({ auth, editUser }) => {
                 defaultValue={auth.me.settings?.debugId}
                 name="debugId"
               />
-            </Container>
-            <Container>
+            </Box>
+            <Typography display={mobile ? "inline" : "block"} gutterBottom>
+              Followers history:{" "}
+            </Typography>
+            {mobile ? (
+              <Controller
+                name="chartDays"
+                control={control}
+                as={
+                  <Select>
+                    {chartScale.map((cur) => (
+                      <MenuItem key={cur.value} value={cur.value}>
+                        {cur.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                }
+              />
+            ) : (
+              <Controller
+                name="chartDays"
+                defaultValue={auth.me.settings?.chartDays}
+                control={control}
+                render={(props) => (
+                  <Slider
+                    {...props}
+                    className={classes.slider}
+                    classes={{ markLabel: mobile && classes.hidden }}
+                    // name="chartDays"
+                    valueLabelDisplay={mobile ? "on" : "off"}
+                    onChange={(_, value) => props.onChange(value)}
+                    step={null}
+                    max={60}
+                    marks={chartScale}
+                  />
+                )}
+              />
+            )}
+            <Box marginBottom={2}>
               <Button type="submit" variant="contained">
                 Save
               </Button>
-            </Container>
+            </Box>
           </form>
-          <Typography variant="subtitle1">Account type:</Typography>
+          <Typography variant="subtitle1" gutterBottom>
+            Account type:
+          </Typography>
           <Grid container spacing={2} className={pricingClasses.container}>
             {tiers.map((tier) => (
               <Grid item key={tier.name}>
