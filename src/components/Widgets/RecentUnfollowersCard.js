@@ -51,7 +51,15 @@ export default memo(function RecentUnfollowersCard({
         <List dense disablePadding>
           {unfollowers?.length > 0 && unfollowers[0].user
             ? unfollowers.map((user) => (
-                <ListItem button divider key={user._id}>
+                <ListItem
+                  button
+                  divider
+                  component="a"
+                  href={`https://twitter.com/${user?.user?.screen_name}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  key={user._id}
+                >
                   <ListItemAvatar>
                     <Avatar src={user?.user?.avatar} />
                   </ListItemAvatar>
