@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 
 import { syncData } from "../../store/actions/syncActions";
 import { formatDistance } from "date-fns";
+import SyncProgress from "../SyncProgress";
 
 const useStyles = makeStyles((theme) => ({
   popover: {
@@ -25,7 +26,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SyncMenu = ({ anchorEl, onClose, followers, sync, syncData }) => {
+const SyncMenu = ({
+  anchorEl,
+  auth: { me: {tier} },
+  onClose,
+  followers,
+  sync,
+  syncData,
+}) => {
   const classes = useStyles();
 
   useEffect(() => {
@@ -52,12 +60,17 @@ const SyncMenu = ({ anchorEl, onClose, followers, sync, syncData }) => {
       >
         <div className={classes.container}>
           <Typography>
-            Synced{" "}
+            Data updated:{" "}
             {followers.fetchedAt &&
               formatDistance(new Date(followers.fetchedAt), new Date())}{" "}
             ago
           </Typography>
-          <Typography>Status: {sync.statusMessage || sync.error}</Typography>
+          {/* <Typography>Status: {sync.statusMessage || sync.error}</Typography> */}
+          <SyncProgress
+            tier={tier.name}
+            fetchedAt={followers.fetchedAt}
+            sync={sync}
+          />
           <div className={classes.actions}>
             <Button variant="contained" color="primary" onClick={syncData}>
               Sync
@@ -70,6 +83,7 @@ const SyncMenu = ({ anchorEl, onClose, followers, sync, syncData }) => {
 };
 
 const mapStateToProps = (state) => ({
+  auth: state.auth,
   followers: state.followers,
   sync: state.sync,
 });
