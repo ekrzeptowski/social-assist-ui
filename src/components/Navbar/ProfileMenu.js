@@ -1,8 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Avatar, Typography, Button } from "@material-ui/core";
+import { Avatar, Typography, Button, Box } from "@material-ui/core";
 import { Popover } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import Link from "@material-ui/core/Link";
+import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   popover: {
@@ -20,6 +21,10 @@ const useStyles = makeStyles((theme) => ({
     "& > *": {
       margin: theme.spacing(1),
     },
+  },
+  avatar: {
+    height: 128,
+    width: 128,
   },
 }));
 
@@ -48,13 +53,24 @@ export const ProfileMenu = ({ anchorEl, onClose, user, onLogOut }) => {
           <Avatar
             className={classes.avatar}
             alt={user.name}
-            src={user.avatar}
+            src={user.avatar.replace("_normal", "")}
           />
-          <Typography variant="h5">{user.name}</Typography>
+          <Box>
+            <Typography variant="h5">{user.name}</Typography>
+            <Typography variant="caption" color="textSecondary">
+              <Link
+                href={`https://twitter.com/${user.username}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                @{user.username}
+              </Link>
+            </Typography>
+          </Box>
           <div className={classes.actions}>
             <Button
               variant="contained"
-              component={Link}
+              component={RouterLink}
               to="/settings"
               color="primary"
             >
