@@ -8,7 +8,13 @@ import thunk from "redux-thunk";
 import App from "./App";
 import rootReducer from "./store/reducers";
 import socketMiddleware from "./store/middleware/websocket";
-import { colors, createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
+import {
+  colors,
+  createMuiTheme,
+  CssBaseline,
+  responsiveFontSizes,
+  ThemeProvider,
+} from "@material-ui/core";
 
 const initialState = {};
 
@@ -23,13 +29,15 @@ const store = createStore(
   )
 );
 
-const theme = createMuiTheme({
+let theme = createMuiTheme({
   palette: {
     primary: {
       main: colors.blue[500],
     },
   },
 });
+
+theme = responsiveFontSizes(theme);
 
 ReactDOM.render(
   <Provider store={store}>
