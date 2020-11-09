@@ -12,6 +12,7 @@ import {
   useMediaQuery,
   Select,
   MenuItem,
+  Link,
 } from "@material-ui/core";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -20,6 +21,7 @@ import { compose } from "redux";
 import { editUser } from "../../store/actions/userActions";
 import Pricing, { usePricingStyles } from "../../components/Pricing/Pricing";
 import { tiers } from "../../tiers";
+import { Link as RouterLink } from "react-router-dom";
 
 const chartScale = [
   { value: 0, label: "Infinite" },
@@ -137,6 +139,11 @@ const Settings = ({ auth, editUser }) => {
               </Grid>
             ))}
           </Grid>
+          <Box my={3}>
+            <Link component={RouterLink} to="/privacy">
+              Privacy policy
+            </Link>
+          </Box>
         </Box>
       )}
     </>
