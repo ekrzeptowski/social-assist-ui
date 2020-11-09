@@ -1,7 +1,8 @@
 import React from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
 
 import { logOutUser } from "../../store/actions/authActions";
 import { toggleSidebar } from "../../store/actions/navActions";
@@ -22,6 +23,12 @@ import { ProfileMenu } from "./ProfileMenu";
 import SyncMenu from "./SyncMenu";
 
 const drawerWidth = 240;
+
+const scrollWithOffset = (el) => {
+  const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
+  const yOffset = -80;
+  window.scrollTo({ top: yCoordinate + yOffset, behavior: "smooth" });
+};
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -180,12 +187,29 @@ const Navbar = ({ auth, nav, sync, toggleSidebar, logOutUser, history }) => {
           </>
         ) : (
           <>
-            <Button color="inherit">Features</Button>
-            <Button color="inherit">Pricing</Button>
             <Button
-              component={Link}
-              to="/login"
-              variant="contained"
+              color="inherit"
+              component={HashLink}
+              scroll={scrollWithOffset}
+              smooth
+              to="/#features"
+            >
+              Features
+            </Button>
+            <Button
+              color="inherit"
+              component={HashLink}
+              scroll={scrollWithOffset}
+              smooth
+              to="/#pricing"
+            >
+              Pricing
+            </Button>
+            <Button
+              component={HashLink}
+              to="/#login"
+              smooth
+              scroll={scrollWithOffset}
               color="inherit"
             >
               Login
