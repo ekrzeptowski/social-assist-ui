@@ -21,6 +21,8 @@ import NotFollowing from "./pages/NotFollowing/NotFollowing";
 import NotFollowers from "./pages/NotFollowers/NotFollowers";
 import Layout from "./layout/Layout";
 import FollowingBack from "./pages/FollowingBack/FollowingBack";
+import Landing from "./pages/Landing/Landing";
+import LandingLayout from "./layout/LandingLayout";
 
 const App = ({ logInUserWithOauth, auth, loadMe }) => {
   const dispatch = useDispatch();
@@ -73,10 +75,13 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
               </Switch>
             </Layout>
           ) : (
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route path="/login" component={Login} />
-            </Switch>
+            <LandingLayout>
+              <Switch>
+                <Route exact path="/" component={Landing} />
+                <Route path="/login" component={Login} />
+                <Route path="/privacy" component={PrivacyPolicy} />
+              </Switch>
+            </LandingLayout>
           )}
         </>
       ) : (
