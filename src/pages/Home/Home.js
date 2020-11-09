@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
@@ -7,13 +7,6 @@ import { WidthProvider, Responsive } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import "./styles.css";
-
-import {
-  getFollowersHistory,
-  getFollowersStats,
-  getUnfollowers,
-} from "../../store/actions/followersActions";
-import { editUser } from "../../store/actions/userActions";
 
 import { Typography } from "@material-ui/core";
 
@@ -163,9 +156,6 @@ const layout = {
 
 const Home = ({
   auth,
-  getFollowersHistory,
-  getFollowersStats,
-  getUnfollowers,
   followers: {
     isLoading,
     unfollowers,
@@ -196,26 +186,6 @@ const Home = ({
     notFollowersCount,
     notFollowingCount,
   };
-
-  // const [widgets, setWidgets] = useState(defaultWidgets);
-  // const [layouts, setLayouts] = useState({});
-
-  useEffect(() => {
-    if (!totalFollowers && auth.isAuthenticated) {
-      getFollowersStats();
-    }
-  }, [auth.isAuthenticated, getFollowersStats, totalFollowers]);
-  useEffect(() => {
-    if (followersHistory.length === 0 && auth.isAuthenticated) {
-      getFollowersHistory();
-    }
-  }, [auth.isAuthenticated, getFollowersHistory, followersHistory.length]);
-
-  useEffect(() => {
-    if (!unfollowers && auth.isAuthenticated) {
-      getUnfollowers();
-    }
-  }, [auth.isAuthenticated, getUnfollowers, unfollowers]);
 
   if (!auth.isAuthenticated) return <Redirect to="/login" />;
 
@@ -252,11 +222,4 @@ const mapStateToProps = (state) => ({
   followers: state.followers,
 });
 
-export default compose(
-  connect(mapStateToProps, {
-    getFollowersHistory,
-    getFollowersStats,
-    getUnfollowers,
-    editUser,
-  })
-)(Home);
+export default compose(connect(mapStateToProps, {}))(Home);

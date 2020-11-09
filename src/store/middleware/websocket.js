@@ -16,6 +16,7 @@ import {
   getFollowersHistory,
   getUnfollowers,
 } from "../actions/followersActions";
+import { loadMe } from "../actions/authActions";
 
 const socketMiddleware = () => {
   let socket = null;
@@ -27,7 +28,10 @@ const socketMiddleware = () => {
           case "INFO":
             store.dispatch({
               type: SYNC_CHANGE,
-              payload: { message: payload.message },
+              payload: {
+                message: payload.message,
+                progress: payload.progress || null,
+              },
             });
             break;
           case "DONE":
@@ -35,6 +39,7 @@ const socketMiddleware = () => {
               type: SYNC_SUCCESS,
               payload: { message: payload.message },
             });
+            !store.getState().auth?.me?.fetchedAt && store.dispatch(loadMe());
             store.dispatch(getFollowersStats());
             store.dispatch(getFollowersHistory());
             store.dispatch(getUnfollowers());

@@ -15,6 +15,7 @@ import {
 
 const initialState = {
   isLoading: false,
+  isLoaded: false,
   error: null,
   followers: [],
   followersHistory: [],
@@ -58,6 +59,7 @@ export default function (state = initialState, { type, payload }) {
         ...state,
         error: null,
         isLoading: false,
+        isLoaded: true,
         totalFollowers: payload.totalFollowers,
         totalFollowing: payload.totalFollowing,
         fetchedAt: payload.fetchedAt,
