@@ -13,10 +13,20 @@ export const tiers = [
     price: "Free during beta test",
     name: "Premium",
     features: [
-      "Manual data update every 3 hours",
-      "Auto updates every 12 hours",
+      "Manual data update every 6 hours",
+      "Auto updates every 24 hours",
       "No followers limits",
     ],
     tier: 1,
   },
+  // {
+  //   price: 2.99,
+  //   name: "Supporter",
+  //   features: [
+  //     "Manual data update every 3 hours",
+  //     "Auto updates every 12 hours",
+  //     "No followers limits",
+  //   ],
+  //   tier: 2,
+  // },
 ];
