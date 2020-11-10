@@ -11,7 +11,7 @@ import { green, red } from "@material-ui/core/colors";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import Skeleton from "@material-ui/lab/Skeleton";
-import { Link } from "react-router-dom";
+import { Link } from "gatsby";
 import { formatFollowers } from "../../helpers/format";
 // import { DragHandle } from "./DragHandle";
 import useCardStyles from "./styles";

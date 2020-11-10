@@ -6,7 +6,7 @@ import {
   Button,
   CardActions,
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link } from "gatsby";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { formatFollowers } from "../../helpers/format";
 // import { DragHandle } from "./DragHandle";

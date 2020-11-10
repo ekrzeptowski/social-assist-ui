@@ -1,4 +1,5 @@
 import axios from "axios";
+import { navigate } from "gatsby";
 
 import {
   LOGIN_WITH_OAUTH_LOADING,
@@ -7,7 +8,7 @@ import {
   LOGOUT_SUCCESS,
   ME_LOADING,
   ME_SUCCESS,
-  ME_FAIL
+  ME_FAIL,
 } from "../types";
 
 export const loadMe = () => async (dispatch, getState) => {
@@ -19,12 +20,12 @@ export const loadMe = () => async (dispatch, getState) => {
 
     dispatch({
       type: ME_SUCCESS,
-      payload: { me: response.data.me }
+      payload: { me: response.data.me },
     });
   } catch (err) {
     dispatch({
       type: ME_FAIL,
-      payload: { error: err.response.data.message }
+      payload: { error: err.response.data.message },
     });
   }
 };
@@ -49,40 +50,41 @@ export const loadMe = () => async (dispatch, getState) => {
 //   }
 // };
 
-export const logInUserWithOauth = token => async (dispatch, getState) => {
+export const logInUserWithOauth = (token) => async (dispatch, getState) => {
   dispatch({ type: LOGIN_WITH_OAUTH_LOADING });
 
   try {
     const headers = {
       "Content-Type": "application/json",
-      "x-auth-token": token
+      "x-auth-token": token,
     };
 
     const response = await axios.get("/api/users/me", { headers });
 
     dispatch({
       type: LOGIN_WITH_OAUTH_SUCCESS,
-      payload: { me: response.data.me, token }
+      payload: { me: response.data.me, token },
     });
   } catch (err) {
     dispatch({
       type: LOGIN_WITH_OAUTH_FAIL,
-      payload: { error: err.response.data.message }
+      payload: { error: err.response.data.message },
     });
   }
 };
 
 // Log user out
-export const logOutUser = history => async dispatch => {
+export const logOutUser = (history) => async (dispatch) => {
   try {
     deleteAllCookies();
     //just to log user logut on the server
     await axios.get("/auth/logout");
 
     dispatch({
-      type: LOGOUT_SUCCESS
+      type: LOGOUT_SUCCESS,
     });
-    if (history) history.push("/");
+    navigate("/");
+    // if (history) history.push("/");
   } catch (err) {}
 };
 
@@ -97,13 +99,13 @@ function deleteAllCookies() {
   }
 }
 
-export const attachTokenToHeaders = getState => {
+export const attachTokenToHeaders = (getState) => {
   const token = getState().auth.token;
 
   const config = {
     headers: {
-      "Content-type": "application/json"
-    }
+      "Content-type": "application/json",
+    },
   };
 
   if (token) {

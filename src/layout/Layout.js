@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import Navbar from "../components/Navbar/Navbar";
+import MobileNav from "../components/Navbar/MobileNav";
 import Sidebar from "../components/Sidebar/Sidebar";
 
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Container, useMediaQuery } from "@material-ui/core";
-import MobileNav from "../components/Navbar/MobileNav";
 
 const useStyles = makeStyles((theme) => ({
   root: {

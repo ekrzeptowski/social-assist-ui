@@ -1,11 +1,10 @@
 import React from "react";
-
-import { Provider } from "react-redux";
-import { createStore, applyMiddleware, compose } from "redux";
+import { applyMiddleware, createStore, compose } from "redux";
 import thunk from "redux-thunk";
 
-import rootReducer from "./store/reducers";
-import socketMiddleware from "./store/middleware/websocket";
+import rootReducer from "./reducers";
+import socketMiddleware from "./middleware/websocket";
+import { Provider } from "react-redux";
 
 const initialState = {};
 

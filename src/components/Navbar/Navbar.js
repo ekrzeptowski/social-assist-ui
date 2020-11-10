@@ -1,8 +1,7 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import { HashLink } from "react-router-hash-link";
+import { Link } from "gatsby";
 
 import { logOutUser } from "../../store/actions/authActions";
 import { toggleSidebar } from "../../store/actions/navActions";
@@ -16,11 +15,13 @@ import {
   Typography,
   Avatar,
   Hidden,
+  CircularProgress,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import SyncIcon from "@material-ui/icons/Sync";
-import { ProfileMenu } from "./ProfileMenu";
-import SyncMenu from "./SyncMenu";
+
+const ProfileMenu = lazy(() => import("./ProfileMenu"));
+const SyncMenu = lazy(() => import("./SyncMenu"));
 
 const drawerWidth = 240;
 
@@ -176,42 +177,26 @@ const Navbar = ({ auth, nav, sync, toggleSidebar, logOutUser, history }) => {
               />
               @{auth.me.username}
             </Button>
-            <SyncMenu anchorEl={syncAnchorEl} onClose={handleCloseSync} />
-            <ProfileMenu
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              onLogOut={onLogOut}
-              user={auth.me}
-            ></ProfileMenu>
+            <Suspense fallback={<CircularProgress />}>
+              <SyncMenu anchorEl={syncAnchorEl} onClose={handleCloseSync} />
+              <ProfileMenu
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                onLogOut={onLogOut}
+                user={auth.me}
+              />
+            </Suspense>
             {/* <IconButton color="inherit"><AccountCircle/></IconButton> */}
           </>
         ) : (
           <>
-            <Button
-              color="inherit"
-              component={HashLink}
-              scroll={scrollWithOffset}
-              smooth
-              to="/#features"
-            >
+            <Button color="inherit" component={Link} to="/#features">
               Features
             </Button>
-            <Button
-              color="inherit"
-              component={HashLink}
-              scroll={scrollWithOffset}
-              smooth
-              to="/#pricing"
-            >
+            <Button color="inherit" component={Link} to="/#pricing">
               Pricing
             </Button>
-            <Button
-              component={HashLink}
-              to="/#login"
-              smooth
-              scroll={scrollWithOffset}
-              color="inherit"
-            >
+            <Button component={Link} to="/#login" color="inherit">
               Login
             </Button>
           </>
@@ -227,7 +212,6 @@ const mapStateToProps = (state) => ({
   sync: state.sync,
 });
 
-export default compose(
-  withRouter,
-  connect(mapStateToProps, { logOutUser, toggleSidebar })
-)(Navbar);
+export default compose(connect(mapStateToProps, { logOutUser, toggleSidebar }))(
+  Navbar
+);

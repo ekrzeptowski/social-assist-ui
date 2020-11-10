@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Typography, Button, Box } from "@material-ui/core";
 import { Popover } from "@material-ui/core";
 import Link from "@material-ui/core/Link";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink } from "gatsby";
 
 const useStyles = makeStyles((theme) => ({
   popover: {
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const ProfileMenu = ({ anchorEl, onClose, user, onLogOut }) => {
+const ProfileMenu = ({ anchorEl, onClose, user, onLogOut }) => {
   const classes = useStyles();
 
   return (
@@ -85,3 +85,5 @@ export const ProfileMenu = ({ anchorEl, onClose, user, onLogOut }) => {
     </div>
   );
 };
+
+export default ProfileMenu;

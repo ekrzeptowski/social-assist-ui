@@ -6,7 +6,8 @@ import {
   makeStyles,
 } from "@material-ui/core";
 
-import { useLocation, Link } from "react-router-dom";
+import { Link } from "gatsby";
+import { useLocation } from "@reach/router";
 import MoreMenu from "./MoreMenu";
 import {
   AiOutlineDashboard,

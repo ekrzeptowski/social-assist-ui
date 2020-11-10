@@ -6,10 +6,11 @@ import {
   ME_LOADING,
   ME_SUCCESS,
   ME_FAIL,
-} from '../types';
+} from "../types";
 
 const initialState = {
-  token: localStorage.getItem('token'),
+  token:
+    typeof localStorage != "undefined" ? localStorage.getItem("token") : null,
   isAuthenticated: false,
   isLoading: false,
   me: null,
@@ -33,7 +34,7 @@ export default function (state = initialState, { type, payload }) {
         error: null,
       };
     case LOGIN_WITH_OAUTH_SUCCESS:
-      localStorage.setItem('token', payload.token);
+      localStorage.setItem("token", payload.token);
       return {
         ...state,
         isAuthenticated: true,
@@ -52,7 +53,7 @@ export default function (state = initialState, { type, payload }) {
         appLoaded: true,
       };
     case ME_FAIL:
-      localStorage.removeItem('token');
+      localStorage.removeItem("token");
       return {
         ...state,
         isAuthenticated: false,
@@ -62,7 +63,7 @@ export default function (state = initialState, { type, payload }) {
         appLoaded: true,
       };
     case LOGOUT_SUCCESS:
-      localStorage.removeItem('token');
+      localStorage.removeItem("token");
       return {
         ...state,
         token: null,

@@ -12,7 +12,7 @@ import {
   ListItemText,
 } from "@material-ui/core";
 import clsx from "clsx";
-import { Link } from "react-router-dom";
+import { Link } from "gatsby";
 import LockIcon from "@material-ui/icons/Lock";
 import Skeleton from "@material-ui/lab/Skeleton";
 // import { DragHandle } from "./DragHandle";

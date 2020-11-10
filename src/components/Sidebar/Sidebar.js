@@ -1,7 +1,8 @@
 import React from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "gatsby";
+import { useLocation } from "@reach/router";
 
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";

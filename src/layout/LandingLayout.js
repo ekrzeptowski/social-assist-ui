@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import Navbar from "../components/Navbar/Navbar";
+import Footer from "../components/Footer/Footer";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { Container } from "@material-ui/core";
-import Footer from "../components/Footer/Footer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
