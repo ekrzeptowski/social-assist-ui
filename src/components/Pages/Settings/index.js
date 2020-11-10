@@ -43,11 +43,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Settings = ({ auth, editUser }) => {
-  const { register, handleSubmit, control } = useForm({
-    defaultValues: {
-      debug: auth.me.settings?.debug,
-    },
-  });
+  const { register, handleSubmit, control } = useForm();
 
   const pricingClasses = usePricingStyles();
   const classes = useStyles();
@@ -67,28 +63,32 @@ const Settings = ({ auth, editUser }) => {
       {auth.me && (
         <Box>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Box>
-              <Controller
-                name="debug"
-                control={control}
-                render={(props) => (
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={props.value}
-                        onChange={(e) => props.onChange(e.target.checked)}
-                      />
-                    }
-                    label="Debug"
-                  />
-                )}
-              />
-              <TextField
-                inputRef={register}
-                defaultValue={auth.me.settings?.debugId}
-                name="debugId"
-              />
-            </Box>
+            {process?.env?.NODE_ENV === "development" && (
+              <Box>
+                <Controller
+                  name="debug"
+                  control={control}
+                  defaultValue={auth.me.settings?.debug || false}
+                  render={(props) => (
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={props.value}
+                          onChange={(e) => props.onChange(e.target.checked)}
+                        />
+                      }
+                      label="Debug"
+                    />
+                  )}
+                />
+                <TextField
+                  inputRef={register}
+                  defaultValue={auth.me.settings?.debugId}
+                  name="debugId"
+                />
+              </Box>
+            )}
+
             <Typography display={mobile ? "inline" : "block"} gutterBottom>
               Followers history:{" "}
             </Typography>
