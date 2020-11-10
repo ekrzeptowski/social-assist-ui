@@ -37,6 +37,7 @@ function Index({
   getFollowersStats,
   getUnfollowers,
   followers: { unfollowers, totalFollowers, followersHistory },
+  websocket,
 }) {
   const dispatch = useDispatch();
 
@@ -63,10 +64,10 @@ function Index({
   ]);
 
   useEffect(() => {
-    if (auth.isAuthenticated) {
+    if (auth.isAuthenticated && !websocket.connected) {
       dispatch(websocketConnect("wss://localhost:5000/"));
     }
-  }, [auth.isAuthenticated, dispatch]);
+  }, [auth.isAuthenticated, websocket.connected, dispatch]);
 
   useEffect(() => {
     if (!totalFollowers && auth.isAuthenticated) {
@@ -127,6 +128,7 @@ function Index({
 const mapStateToProps = (state) => ({
   auth: state.auth,
   followers: state.followers,
+  websocket: state.websocket,
 });
 
 export default compose(
