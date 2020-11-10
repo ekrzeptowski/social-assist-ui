@@ -14,6 +14,7 @@ import {
 } from "../types";
 
 import { logOutUser, loadMe } from "./authActions";
+import { getFollowersHistory } from "./followersActions";
 
 export const editUser = (id, formData, history) => async (
   dispatch,
@@ -31,7 +32,10 @@ export const editUser = (id, formData, history) => async (
       payload: { user: response.data.user },
     });
     // edited him self, reload me
-    if (getState().auth.me?.id === response.data.user.id) dispatch(loadMe());
+    if (getState().auth.me?.id === response.data.user.id) {
+      dispatch(loadMe());
+      dispatch(getFollowersHistory());
+    }
   } catch (err) {
     dispatch({
       type: EDIT_USER_FAIL,
