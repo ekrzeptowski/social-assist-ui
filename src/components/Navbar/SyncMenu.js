@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { syncData } from "../../store/actions/syncActions";
 import { formatDistance } from "date-fns";
 import SyncProgress from "../SyncProgress";
+import trackEvent from "../../helpers/track";
 
 const useStyles = makeStyles((theme) => ({
   popover: {
@@ -28,7 +29,9 @@ const useStyles = makeStyles((theme) => ({
 
 const SyncMenu = ({
   anchorEl,
-  auth: { me: {tier} },
+  auth: {
+    me: { tier },
+  },
   onClose,
   followers,
   sync,
@@ -39,6 +42,11 @@ const SyncMenu = ({
   useEffect(() => {
     // syncData();
   }, []);
+
+  const onSync = () => {
+    trackEvent("sync_menu", "clicked", "sync");
+    syncData();
+  };
 
   return (
     <div>
@@ -72,7 +80,7 @@ const SyncMenu = ({
             sync={sync}
           />
           <div className={classes.actions}>
-            <Button variant="contained" color="primary" onClick={syncData}>
+            <Button variant="contained" color="primary" onClick={onSync}>
               Sync
             </Button>
           </div>

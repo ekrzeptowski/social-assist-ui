@@ -4,6 +4,7 @@ import { Avatar, Typography, Button, Box } from "@material-ui/core";
 import { Popover } from "@material-ui/core";
 import Link from "@material-ui/core/Link";
 import { Link as RouterLink } from "gatsby";
+import trackEvent from "../../helpers/track";
 
 const useStyles = makeStyles((theme) => ({
   popover: {
@@ -73,6 +74,7 @@ const ProfileMenu = ({ anchorEl, onClose, user, onLogOut }) => {
               component={RouterLink}
               to="/settings"
               color="primary"
+              onClick={() => trackEvent("profile_menu", "clicked", "settings")}
             >
               Settings
             </Button>

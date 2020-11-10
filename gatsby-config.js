@@ -23,6 +23,21 @@ module.exports = {
     `gatsby-plugin-mdx`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
+    `gatsby-plugin-sitemap`,
+    {
+      resolve: `gatsby-plugin-robots-txt`,
+      options: {
+        policy: [{ userAgent: `*`, disallow: `/api` }],
+      },
+    },
+    {
+      resolve: "gatsby-plugin-matomo",
+      options: {
+        siteId: "3",
+        matomoUrl: "***REMOVED***",
+        siteUrl: "https://socialassist.ml",
+      },
+    },
   ],
   developMiddleware: (app) => {
     app.use(

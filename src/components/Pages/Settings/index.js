@@ -23,6 +23,7 @@ import Pricing, { usePricingStyles } from "../../Pricing/Pricing";
 import { tiers } from "../../../tiers";
 import { Link as RouterLink } from "gatsby";
 import SEO from "../../Seo";
+import trackEvent from "../../../helpers/track";
 
 const chartScale = [
   { value: 0, label: "Infinite" },
@@ -54,7 +55,10 @@ const Settings = ({ auth, editUser }) => {
 
   const mobile = useMediaQuery(theme.breakpoints.down("xs"));
 
-  const onSubmit = (data) => editUser(auth.me.id, { settings: data });
+  const onSubmit = (data) => {
+    trackEvent("settings", "clicked", "save");
+    editUser(auth.me.id, { settings: data });
+  };
 
   return (
     <>
