@@ -52,7 +52,7 @@ function SEO({ description, lang, meta, image: metaImage, title, pathname, noTem
         },
         {
           property: `og:title`,
-          content: title,
+          content: noTemplate ? site.siteMetadata.title : title,
         },
         {
           property: `og:description`,
@@ -68,7 +68,7 @@ function SEO({ description, lang, meta, image: metaImage, title, pathname, noTem
         },
         {
           name: `twitter:title`,
-          content: title,
+          content: noTemplate ? site.siteMetadata.title : title,
         },
         {
           name: `twitter:description`,
