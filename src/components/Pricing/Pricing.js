@@ -37,7 +37,7 @@ export const usePricingStyles = makeStyles({
 const Pricing = ({ tier, currentTier }) => {
   const classes = usePricingStyles({ current: currentTier });
   return (
-    <Paper className={classes.item}>
+    <Paper className={classes.item} elevation={currentTier ? 9 : 2}>
       <Box className={classes.header}>
         <Typography variant="h4">{tier.name}</Typography>
       </Box>
