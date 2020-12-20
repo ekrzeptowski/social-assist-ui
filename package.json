@@ -51,6 +51,7 @@
   },
   "scripts": {
     "start": "HTTPS=true react-scripts start",
+    "gatsby-build": "gatsby clean && gatsby build",
     "gatsby-dev": "gatsby develop -p 3000",
     "build": "react-scripts build",
     "test": "react-scripts test",

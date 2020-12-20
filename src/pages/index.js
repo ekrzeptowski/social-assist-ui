@@ -65,7 +65,13 @@ function Index({
 
   useEffect(() => {
     if (auth.isAuthenticated && !websocket.connected) {
-      dispatch(websocketConnect("wss://localhost:5000/"));
+      dispatch(
+        websocketConnect(
+          process.env.NODE_ENV === "production"
+            ? "wss://socialassist.ml/"
+            : "wss://localhost:5000/"
+        )
+      );
     }
   }, [auth.isAuthenticated, websocket.connected, dispatch]);
 
