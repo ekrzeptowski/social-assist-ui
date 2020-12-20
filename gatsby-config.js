@@ -1,3 +1,6 @@
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
 const { createProxyMiddleware } = require("http-proxy-middleware");
 const path = require(`path`);
 
@@ -33,9 +36,9 @@ module.exports = {
     {
       resolve: "gatsby-plugin-matomo",
       options: {
-        siteId: "3",
-        matomoUrl: "***REMOVED***",
-        siteUrl: "https://socialassist.ml",
+        siteId: process.env.SITE_ID,
+        matomoUrl: process.env.MATOMO_URL,
+        siteUrl: process.env.SITE_URL,
       },
     },
   ],
@@ -62,8 +65,7 @@ module.exports = {
     titleTemplate: "%s · Social Assistant",
     description:
       "Social assistant is an app created to help you get insights on your followers.",
-    // url: "https://socialassist.ml", // No trailing slash allowed!
-    siteUrl: "https://socialassist.ml", // No trailing slash allowed!
+    siteUrl: process.env.SITE_URL, // No trailing slash allowed!
     image: "/mbp.png", // Path to your image you placed in the 'static' folder
     twitterUsername: "@socialassist_ml",
   },
