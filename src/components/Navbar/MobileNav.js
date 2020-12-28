@@ -9,13 +9,13 @@ import {
 import { Link } from "gatsby";
 import { useLocation } from "@reach/router";
 import MoreMenu from "./MoreMenu";
-import {
-  AiOutlineDashboard,
-  AiOutlineUser,
-  AiOutlineUsergroupDelete,
-  AiOutlineMore,
-} from "react-icons/ai";
-import { IconContext } from "react-icons/lib";
+
+import { AiOutlineDashboard } from "@react-icons/all-files/ai/AiOutlineDashboard.esm";
+import { AiOutlineUser } from "@react-icons/all-files/ai/AiOutlineUser.esm";
+import { AiOutlineUsergroupDelete } from "@react-icons/all-files/ai/AiOutlineUsergroupDelete.esm";
+import { AiOutlineMore } from "@react-icons/all-files/ai/AiOutlineMore.esm";
+
+import { IconContext } from "@react-icons/all-files/lib";
 
 const useStyles = makeStyles(() => ({
   backdrop: {

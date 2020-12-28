@@ -2,14 +2,14 @@ import React from "react";
 import { makeStyles, List, useTheme, IconButton } from "@material-ui/core";
 import { ListItemLink } from "../Sidebar/Sidebar";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import {
-  AiOutlineUserDelete,
-  AiOutlineEye,
-  AiOutlineUserSwitch,
-  AiOutlineEyeInvisible,
-  AiOutlineSetting,
-} from "react-icons/ai";
-import { IconContext } from "react-icons/lib";
+
+import { AiOutlineUserDelete } from "@react-icons/all-files/ai/AiOutlineUserDelete.esm";
+import { AiOutlineEye } from "@react-icons/all-files/ai/AiOutlineEye.esm";
+import { AiOutlineUserSwitch } from "@react-icons/all-files/ai/AiOutlineUserSwitch.esm";
+import { AiOutlineEyeInvisible } from "@react-icons/all-files/ai/AiOutlineEyeInvisible.esm";
+import { AiOutlineSetting } from "@react-icons/all-files/ai/AiOutlineSetting.esm";
+
+import { IconContext } from "@react-icons/all-files/lib";
 
 const useStyles = makeStyles((theme) => ({
   root: {

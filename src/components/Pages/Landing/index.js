@@ -10,14 +10,14 @@ import {
 } from "@material-ui/core";
 
 import React from "react";
-import {
-  AiOutlineEyeInvisible,
-  AiOutlineLineChart,
-  AiOutlineUserDelete,
-  AiOutlineUsergroupDelete,
-  AiOutlineUserSwitch,
-} from "react-icons/ai";
-import { IconContext } from "react-icons/lib";
+
+import { AiOutlineEyeInvisible } from "@react-icons/all-files/ai/AiOutlineEyeInvisible.esm";
+import { AiOutlineLineChart } from "@react-icons/all-files/ai/AiOutlineLineChart.esm";
+import { AiOutlineUserDelete } from "@react-icons/all-files/ai/AiOutlineUserDelete.esm";
+import { AiOutlineUsergroupDelete } from "@react-icons/all-files/ai/AiOutlineUsergroupDelete.esm";
+import { AiOutlineUserSwitch } from "@react-icons/all-files/ai/AiOutlineUserSwitch.esm";
+
+import { IconContext } from "@react-icons/all-files/lib";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import Pricing, { usePricingStyles } from "../../Pricing/Pricing";
 import { TWITTER_AUTH_LINK } from "../../../constants";
@@ -97,7 +97,7 @@ export default function Landing() {
 
   return (
     <div>
-      <SEO noTemplate/>
+      <SEO noTemplate />
       <Grid container spacing={2} alignItems="center" justify="center">
         <Grid item md>
           <Typography component="h1" variant="h2" gutterBottom>

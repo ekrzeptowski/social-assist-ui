@@ -15,19 +15,18 @@ import {
   Divider,
   useMediaQuery,
 } from "@material-ui/core";
-import {
-  AiOutlineUsergroupDelete,
-  AiOutlineUser,
-  AiOutlineEyeInvisible,
-  AiOutlineEye,
-  AiOutlineUserDelete,
-  AiOutlineUserSwitch,
-  AiOutlineSetting,
-  AiOutlineDashboard,
-} from "react-icons/ai";
+
+import { AiOutlineUsergroupDelete } from "@react-icons/all-files/ai/AiOutlineUsergroupDelete.esm";
+import { AiOutlineUser } from "@react-icons/all-files/ai/AiOutlineUser.esm";
+import { AiOutlineEyeInvisible } from "@react-icons/all-files/ai/AiOutlineEyeInvisible.esm";
+import { AiOutlineEye } from "@react-icons/all-files/ai/AiOutlineEye.esm";
+import { AiOutlineUserDelete } from "@react-icons/all-files/ai/AiOutlineUserDelete.esm";
+import { AiOutlineUserSwitch } from "@react-icons/all-files/ai/AiOutlineUserSwitch.esm";
+import { AiOutlineSetting } from "@react-icons/all-files/ai/AiOutlineSetting.esm";
+import { AiOutlineDashboard } from "@react-icons/all-files/ai/AiOutlineDashboard.esm";
 
 import { toggleSidebar } from "../../store/actions/navActions";
-import { IconContext } from "react-icons/lib";
+import { IconContext } from "@react-icons/all-files/lib";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
