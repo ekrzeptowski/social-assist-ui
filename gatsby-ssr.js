@@ -1,1 +1,1 @@
-export { default as wrapRootElement } from "./src";
+export { default as wrapRootElement } from "./src/store";
