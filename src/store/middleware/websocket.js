@@ -50,12 +50,10 @@ const socketMiddleware = () => {
             }
             break;
           default:
-            console.log(payload);
             break;
         }
         break;
       default:
-        console.log("the next action:", action);
         return next(action);
     }
   };
