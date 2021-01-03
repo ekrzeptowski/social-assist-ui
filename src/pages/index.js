@@ -8,7 +8,8 @@ import FirstSync from "../components/Pages/FirstSync";
 
 import { compose } from "redux";
 import { connect, useDispatch } from "react-redux";
-import { websocketConnect } from "../store/actions/websocketActions";
+import { connect as websocketConnect } from "@giantmachines/redux-websocket";
+
 import { logInUserWithOauth, loadMe } from "../store/actions/authActions";
 import {
   getFollowersHistory,

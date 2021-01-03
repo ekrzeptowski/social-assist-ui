@@ -1,9 +1,9 @@
 import {
   // REDUX_WEBSOCKET_BROKEN,
   // REDUX_WEBSOCKET_CLOSED,
-  WEBSOCKET_CONNECT,
+  REDUX_WEBSOCKET_CONNECT,
   // REDUX_WEBSOCKET_MESSAGE,
-  WEBSOCKET_OPEN,
+  REDUX_WEBSOCKET_OPEN,
   // REDUX_WEBSOCKET_SEND
 } from "../types";
 
@@ -23,13 +23,13 @@ export default function (state = initialState, { type, payload, meta }) {
     //     messages: [],
     //   };
 
-    case WEBSOCKET_CONNECT:
+    case REDUX_WEBSOCKET_CONNECT:
       return {
         ...state,
         host: payload.host,
       };
 
-    case WEBSOCKET_OPEN:
+    case REDUX_WEBSOCKET_OPEN:
       return {
         ...state,
         connected: true,
