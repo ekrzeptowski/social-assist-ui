@@ -32,10 +32,10 @@ const scrollWithOffset = (el) => {
 };
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  "root": {
     display: "flex",
   },
-  appBar: {
+  "appBar": {
     // background: "#fff",
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(["width", "margin"], {
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
   },
-  appBarShift: {
+  "appBarShift": {
     // marginLeft: drawerWidth,
     // width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(["width", "margin"], {
@@ -51,28 +51,29 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
-  grow: {
+  "grow": {
+    display: "flex",
     flexGrow: 1,
   },
-  menuButton: {
+  "menuButton": {
     marginRight: 36,
   },
-  hide: {
+  "hide": {
     display: "none",
   },
-  drawer: {
+  "drawer": {
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: "nowrap",
   },
-  drawerOpen: {
+  "drawerOpen": {
     width: drawerWidth,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
-  drawerClose: {
+  "drawerClose": {
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -83,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
       width: theme.spacing(9) + 1,
     },
   },
-  toolbar: {
+  "toolbar": {
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
@@ -91,14 +92,14 @@ const useStyles = makeStyles((theme) => ({
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
   },
-  content: {
+  "content": {
     flexGrow: 1,
     padding: theme.spacing(3),
   },
-  title: {
-    flexGrow: 1,
+  "title": {
+    display: "inline-flex",
   },
-  avatar: {
+  "avatar": {
     marginRight: 8,
   },
   "@keyframes rotateIcon": {
@@ -109,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
       transform: "rotate(360deg)",
     },
   },
-  rotateAnimation: {
+  "rotateAnimation": {
     animation: "$rotateIcon 2s linear infinite",
   },
 }));
@@ -159,11 +160,18 @@ const Navbar = ({ auth, nav, sync, toggleSidebar, logOutUser, history }) => {
             Social Assisstant
           </Typography>
         </Hidden>
-        <Hidden smUp>
-          <div className={classes.grow}></div>
-        </Hidden>
+        <div className={classes.grow}></div>
         {auth.isAuthenticated ? (
           <>
+            <Suspense fallback={<CircularProgress />}>
+              <SyncMenu anchorEl={syncAnchorEl} onClose={handleCloseSync} />
+              <ProfileMenu
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                onLogOut={onLogOut}
+                user={auth.me}
+              />
+            </Suspense>
             <IconButton color="inherit" onClick={handleClickSync}>
               <SyncIcon
                 className={sync.isLoading ? classes.rotateAnimation : ""}
@@ -177,15 +185,6 @@ const Navbar = ({ auth, nav, sync, toggleSidebar, logOutUser, history }) => {
               />
               @{auth.me.username}
             </Button>
-            <Suspense fallback={<CircularProgress />}>
-              <SyncMenu anchorEl={syncAnchorEl} onClose={handleCloseSync} />
-              <ProfileMenu
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                onLogOut={onLogOut}
-                user={auth.me}
-              />
-            </Suspense>
             {/* <IconButton color="inherit"><AccountCircle/></IconButton> */}
           </>
         ) : (
