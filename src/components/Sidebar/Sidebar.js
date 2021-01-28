@@ -124,7 +124,7 @@ const Sidebar = ({ nav, toggleSidebar }) => {
       }
     >
       <div className={classes.toolbar}></div>
-      <div onClick={mobile ? toggleSidebar : undefined}>
+      <div>
         <IconContext.Provider value={{ size: 24 }}>
           <List>
             <ListItemLink

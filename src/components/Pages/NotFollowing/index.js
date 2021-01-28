@@ -2,7 +2,6 @@ import React from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 
-import Loader from "../../Loader/Loader";
 import requireAuth from "../../../hoc/requireAuth";
 import ServerTable from "../../Table/ServerTable";
 import Axios from "axios";
