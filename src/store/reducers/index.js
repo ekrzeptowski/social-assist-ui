@@ -1,15 +1,15 @@
 import { combineReducers } from "redux";
 
 import authReducer from "./authReducer";
-import followersReducer from "./followersReducer";
 import userReducer from "./userReducer";
 import navReducer from "./navReducer";
 import websocketReducer from "./websocketReducer";
 import { syncSlice } from "../../features/sync/syncSlice";
+import { followersSlice } from "../../features/followers/followersSlice";
 
 export default combineReducers({
   auth: authReducer,
-  followers: followersReducer,
+  followers: followersSlice.reducer,
   nav: navReducer,
   sync: syncSlice.reducer,
   user: userReducer,

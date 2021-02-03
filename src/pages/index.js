@@ -11,11 +11,12 @@ import { connect, useDispatch } from "react-redux";
 import { connect as websocketConnect } from "@giantmachines/redux-websocket";
 
 import { logInUserWithOauth, loadMe } from "../store/actions/authActions";
+
 import {
-  getFollowersHistory,
   getFollowersStats,
+  getFollowersHistory,
   getUnfollowers,
-} from "../store/actions/followersActions";
+} from "../features/followers/followersSlice";
 
 import Loader from "../components/Loader/Loader";
 import Landing from "../components/Pages/Landing";
@@ -70,8 +71,8 @@ function Index({
         websocketConnect(
           process.env.NODE_ENV === "production"
             ? "wss://socialassist.ml/"
-            : "wss://localhost:5000/"
-        )
+            : "wss://localhost:5000/",
+        ),
       );
     }
   }, [auth.isAuthenticated, websocket.connected, dispatch]);
@@ -145,5 +146,5 @@ export default compose(
     getFollowersHistory,
     getFollowersStats,
     getUnfollowers,
-  })
+  }),
 )(Index);

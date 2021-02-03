@@ -3,7 +3,7 @@ import {
   getFollowersStats,
   getFollowersHistory,
   getUnfollowers,
-} from "../actions/followersActions";
+} from "../../features/followers/followersSlice";
 import { loadMe } from "../actions/authActions";
 import {
   syncChange,

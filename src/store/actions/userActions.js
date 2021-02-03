@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { attachTokenToHeaders } from "./authActions";
+import { attachTokenToHeaders } from "../../helpers/attachTokenToHeaders";
 import {
   GET_PROFILE_LOADING,
   GET_PROFILE_SUCCESS,
@@ -14,11 +14,11 @@ import {
 } from "../types";
 
 import { logOutUser, loadMe } from "./authActions";
-import { getFollowersHistory } from "./followersActions";
+import { getFollowersHistory } from "../../features/followers/followersSlice";
 
 export const editUser = (id, formData, history) => async (
   dispatch,
-  getState
+  getState,
 ) => {
   dispatch({
     type: EDIT_USER_LOADING,
