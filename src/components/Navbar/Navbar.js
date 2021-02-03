@@ -21,7 +21,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import SyncIcon from "@material-ui/icons/Sync";
 
 const ProfileMenu = lazy(() => import("./ProfileMenu"));
-const SyncMenu = lazy(() => import("./SyncMenu"));
+const SyncMenu = lazy(() => import("../../features/sync/SyncMenu"));
 
 const drawerWidth = 240;
 

@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 
 import { BreedingRhombusSpinner } from "react-epic-spinners";
 
-import { syncData } from "../../../store/actions/syncActions";
-import SyncProgress from "../../SyncProgress";
+import SyncProgress from "../../../features/sync/SyncProgress";
+import { syncRequest } from "../../../features/sync/syncSlice";
 
 const useStyles = makeStyles((theme) => ({
   popover: {
@@ -41,15 +41,15 @@ const FirstSync = ({
   onClose,
   followers,
   sync,
-  syncData,
+  syncRequest,
   websocket,
 }) => {
   const classes = useStyles();
   const theme = useTheme();
 
   useEffect(() => {
-    !followers.fetchedAt && websocket.connected && syncData();
-  }, [followers.fetchedAt, websocket.connected, syncData]);
+    !followers.fetchedAt && websocket.connected && syncRequest();
+  }, [followers.fetchedAt, websocket.connected, syncRequest]);
 
   return (
     <div className={classes.container}>
@@ -77,4 +77,4 @@ const mapStateToProps = (state) => ({
   websocket: state.websocket,
 });
 
-export default connect(mapStateToProps, { syncData })(FirstSync);
+export default connect(mapStateToProps, { syncRequest })(FirstSync);

@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Button } from "@material-ui/core";
 import { Popover } from "@material-ui/core";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { syncData } from "../../store/actions/syncActions";
+import { syncRequest } from "./syncSlice";
 import { formatDistance } from "date-fns";
-import SyncProgress from "../SyncProgress";
+import SyncProgress from "./SyncProgress";
 import trackEvent from "../../helpers/track";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,17 +27,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SyncMenu = ({
-  anchorEl,
-  auth: {
-    me: { tier },
-  },
-  onClose,
-  followers,
-  sync,
-  syncData,
-}) => {
+const SyncMenu = ({ anchorEl, onClose }) => {
   const classes = useStyles();
+
+  const tier = useSelector((state) => state.auth?.me?.tier);
+  const followers = useSelector((state) => state.followers);
+  const sync = useSelector((state) => state.sync);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // syncData();
@@ -45,7 +42,7 @@ const SyncMenu = ({
 
   const onSync = () => {
     trackEvent("sync_menu", "clicked", "sync");
-    syncData();
+    dispatch(syncRequest());
   };
 
   return (
@@ -90,10 +87,4 @@ const SyncMenu = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-  followers: state.followers,
-  sync: state.sync,
-});
-
-export default connect(mapStateToProps, { syncData })(SyncMenu);
+export default SyncMenu;

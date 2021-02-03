@@ -1,15 +1,15 @@
-import {
-  SYNC_CHANGE,
-  SYNC_SUCCESS,
-  SYNC_FAIL,
-  REDUX_WEBSOCKET_MESSAGE,
-} from "../types";
+import { REDUX_WEBSOCKET_MESSAGE } from "../types";
 import {
   getFollowersStats,
   getFollowersHistory,
   getUnfollowers,
 } from "../actions/followersActions";
 import { loadMe } from "../actions/authActions";
+import {
+  syncChange,
+  syncFail,
+  syncSuccess,
+} from "../../features/sync/syncSlice";
 
 const socketMiddleware = () => {
   return (store) => (next) => (action) => {
@@ -20,19 +20,15 @@ const socketMiddleware = () => {
           case "SYNC":
             switch (payload.status) {
               case "INFO":
-                store.dispatch({
-                  type: SYNC_CHANGE,
-                  payload: {
+                store.dispatch(
+                  syncChange({
                     message: payload.message,
                     progress: payload.progress || null,
-                  },
-                });
+                  }),
+                );
                 break;
               case "DONE":
-                store.dispatch({
-                  type: SYNC_SUCCESS,
-                  payload: { message: payload.message },
-                });
+                store.dispatch(syncSuccess({ message: payload.message }));
                 !store.getState().auth?.me?.fetchedAt &&
                   store.dispatch(loadMe());
                 store.dispatch(getFollowersStats());
@@ -40,10 +36,7 @@ const socketMiddleware = () => {
                 store.dispatch(getUnfollowers());
                 break;
               case "ERROR":
-                store.dispatch({
-                  type: SYNC_FAIL,
-                  payload: { error: payload.message },
-                });
+                store.dispatch(syncFail({ error: payload.message }));
                 break;
               default:
                 break;
