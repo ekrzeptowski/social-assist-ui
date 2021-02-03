@@ -1,6 +1,8 @@
 import axios from "axios";
 import { navigate } from "gatsby";
 
+import { attachTokenToHeaders } from "./../../helpers/attachTokenToHeaders";
+
 import {
   LOGIN_WITH_OAUTH_LOADING,
   LOGIN_WITH_OAUTH_SUCCESS,
@@ -98,19 +100,3 @@ function deleteAllCookies() {
     document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
   }
 }
-
-export const attachTokenToHeaders = (getState) => {
-  const token = getState().auth.token;
-
-  const config = {
-    headers: {
-      "Content-type": "application/json",
-    },
-  };
-
-  if (token) {
-    config.headers["x-auth-token"] = token;
-  }
-
-  return config;
-};
