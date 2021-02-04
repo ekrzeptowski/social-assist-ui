@@ -18,7 +18,7 @@ import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { editUser } from "../../../store/actions/userActions";
+import { editUser } from "../../../features/user/userSlice";
 import Pricing, { usePricingStyles } from "../../Pricing/Pricing";
 import { tiers } from "../../../tiers";
 import { Link as RouterLink } from "gatsby";
@@ -53,7 +53,7 @@ const Settings = ({ auth, editUser }) => {
 
   const onSubmit = (data) => {
     trackEvent("settings", "clicked", "save");
-    editUser(auth.me.id, { settings: data });
+    editUser({ id: auth.me.id, formData: { settings: data } });
   };
 
   return (
