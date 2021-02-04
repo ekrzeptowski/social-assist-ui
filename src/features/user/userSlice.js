@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { attachTokenToHeaders } from "../../helpers/attachTokenToHeaders";
-import { loadMe, logOutUser } from "../../store/actions/authActions";
+import { loadMe, logOutUser } from "../auth/authSlice";
 import { getFollowersHistory } from "../followers/followersSlice";
 
 export const editUser = createAsyncThunk(

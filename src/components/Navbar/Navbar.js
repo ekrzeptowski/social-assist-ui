@@ -3,7 +3,7 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { Link } from "gatsby";
 
-import { logOutUser } from "../../store/actions/authActions";
+import { logOutUser } from "../../features/auth/authSlice";
 import { toggleSidebar } from "../../features/nav/navSlice";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";

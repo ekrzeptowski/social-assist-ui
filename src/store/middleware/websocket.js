@@ -4,7 +4,7 @@ import {
   getFollowersHistory,
   getUnfollowers,
 } from "../../features/followers/followersSlice";
-import { loadMe } from "../actions/authActions";
+import { loadMe } from "../../features/auth/authSlice";
 import {
   syncChange,
   syncFail,

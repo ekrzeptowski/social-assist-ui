@@ -10,7 +10,7 @@ import { compose } from "redux";
 import { connect, useDispatch } from "react-redux";
 import { connect as websocketConnect } from "@giantmachines/redux-websocket";
 
-import { logInUserWithOauth, loadMe } from "../store/actions/authActions";
+import { logInUserWithOauth, loadMe } from "../features/auth/authSlice";
 
 import {
   getFollowersStats,
