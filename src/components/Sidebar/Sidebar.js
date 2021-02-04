@@ -25,7 +25,7 @@ import { AiOutlineUserSwitch } from "@react-icons/all-files/ai/AiOutlineUserSwit
 import { AiOutlineSetting } from "@react-icons/all-files/ai/AiOutlineSetting.esm";
 import { AiOutlineDashboard } from "@react-icons/all-files/ai/AiOutlineDashboard.esm";
 
-import { toggleSidebar } from "../../store/actions/navActions";
+import { toggleSidebar } from "../../features/nav/navSlice";
 import { IconContext } from "@react-icons/all-files/lib";
 const drawerWidth = 240;
 
@@ -103,7 +103,7 @@ const Sidebar = ({ nav, toggleSidebar }) => {
       variant={mobile ? "temporary" : "permanent"}
       anchor="left"
       open={nav.isExpanded}
-      onClose={toggleSidebar}
+      onClose={() => toggleSidebar()}
       className={
         !mobile
           ? clsx(classes.drawer, {

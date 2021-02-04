@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Link } from "gatsby";
 
 import { logOutUser } from "../../store/actions/authActions";
-import { toggleSidebar } from "../../store/actions/navActions";
+import { toggleSidebar } from "../../features/nav/navSlice";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -152,7 +152,7 @@ const Navbar = ({ auth, nav, sync, toggleSidebar, logOutUser, history }) => {
       <Toolbar>
         <Hidden xsDown>
           {auth.isAuthenticated && (
-            <IconButton color="inherit" onClick={toggleSidebar}>
+            <IconButton color="inherit" onClick={() => toggleSidebar()}>
               <MenuIcon />
             </IconButton>
           )}
